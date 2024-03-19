@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TreeCutting from '@/components/TreeCutting.vue'
+import TreecuttingView from '@/views/TreecuttingView.vue'
 import { useGameStore } from '@/stores/game'
 
 const gameStore = useGameStore()
@@ -7,10 +7,8 @@ const gameStore = useGameStore()
 
 <template>
   <main>
-    <div class="container">
-      <p>{{ gameStore.tickCount }}</p>
+    <p>{{ gameStore.tickCount }}</p>
 
-      <TreeCutting />
-    </div>
+    <TreecuttingView />
   </main>
 </template>
