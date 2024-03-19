@@ -5,7 +5,7 @@
 <template>
   <header>
     <div class="container">
-      <img alt="Logo Superfluo" class="logo" src="@/assets/logo.svg" width="200" />
+      <h1>Melvue</h1>
 
       <!-- <div class="wrapper">
       <nav>

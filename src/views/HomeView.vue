@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import IntroSection from '@/components/home-sections/IntroSection.vue'
-import AboutSection from '@/components/home-sections/AboutSection.vue'
-import EventsSection from '@/components/home-sections/EventsSection.vue'
-import ContactsSection from '@/components/home-sections/ContactsSection.vue'
+import TreeCutting from '@/components/TreeCutting.vue'
+import { useGameStore } from '@/stores/game'
+
+const gameStore = useGameStore()
 </script>
 
 <template>
   <main>
-    <IntroSection />
-    <AboutSection />
-    <EventsSection />
-    <ContactsSection />
+    <div class="container">
+      <p>{{ gameStore.tickCount }}</p>
+
+      <TreeCutting />
+    </div>
   </main>
 </template>
