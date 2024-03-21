@@ -2,10 +2,10 @@ import { ref, onUnmounted } from 'vue'
 import { defineStore } from 'pinia'
 
 import { type Skill } from '@/constants/game'
-import { useTreecuttingStore } from './treecutting'
+import { useWoodcuttingStore } from './woodcutting'
 
 export const useGameStore = defineStore('game', () => {
-  const treecuttingStore = useTreecuttingStore()
+  const woodcuttingStore = useWoodcuttingStore()
 
   const tickCount = ref(0)
   let tickInterval: NodeJS.Timeout
@@ -17,8 +17,8 @@ export const useGameStore = defineStore('game', () => {
     // TODO: Add your game logic here (e.g., update entities, check collisions)
 
     switch (activeSkill.value) {
-      case 'treecutting':
-        treecuttingStore.executeSkillAction()
+      case 'woodcutting':
+        woodcuttingStore.executeActiveAction()
         break
       // TODO: Add more cases for other skills
     }

@@ -1,0 +1,75 @@
+<script setup lang="ts">
+const props = defineProps<{
+  /**
+   * The width of the progress bar in percentage.
+   * This is overriden by the `animate` prop, if true.
+   * @default 0
+   * @example 50
+   */
+  width?: number
+
+  /**
+   * The duration of the progress bar animation in milliseconds.
+   * @default 0
+   * @example 4000
+   */
+  duration?: number
+
+  /**
+   * Whether the progress bar should animate or not.
+   * @default false
+   */
+  animate?: boolean
+
+  /**
+   * Swap between true and false to restart the animation from the beginning.
+   */
+  animationSwitcher?: boolean
+}>()
+</script>
+
+<template>
+  <div class="progress-bar">
+    <div
+      class="progress"
+      :class="[{ animate }, props.animationSwitcher ? 'animate-v1' : 'animate-v2']"
+      :style="{ 'animation-duration': `${props.duration ?? 0}ms`, width: `${props.width ?? 0}%` }"
+    ></div>
+  </div>
+</template>
+
+<style scoped>
+.progress-bar {
+  @apply h-4 bg-green-400 rounded-full;
+  .progress {
+    @apply h-full bg-green-600 rounded-full;
+    &.animate {
+      animation: linear 0s 1 normal none running;
+      &.animate-v1 {
+        animation-name: progressBarV1;
+      }
+      &.animate-v2 {
+        animation-name: progressBarV2;
+      }
+    }
+  }
+}
+
+@keyframes progressBarV1 {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes progressBarV2 {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+</style>

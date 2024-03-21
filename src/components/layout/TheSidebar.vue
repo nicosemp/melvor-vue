@@ -9,7 +9,8 @@
     </div>
 
     <nav>
-      <RouterLink to="/">Home</RouterLink>
+      <!-- <RouterLink to="/">Home</RouterLink> -->
+      <RouterLink to="/woodcutting">Woodcutting</RouterLink>
       <RouterLink to="/about">About</RouterLink>
     </nav>
   </div>
@@ -17,12 +18,12 @@
 
 <style scoped>
 .sidebar {
-  @apply w-40;
+  @apply w-40 h-full bg-slate-600 text-white;
 }
 .logo {
   @apply p-4;
 }
 nav a {
-  @apply block w-full;
+  @apply inline-block w-full p-2;
 }
 </style>

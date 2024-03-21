@@ -1,20 +1,22 @@
-import { ref, type Ref } from 'vue'
+import { nextTick, ref, type Ref } from 'vue'
 import { defineStore } from 'pinia'
 
-import { TREES, type TreeId } from '@/constants/treecutting'
+import { TREES, type TreeId } from '@/constants/woodcutting'
 import { useGameStore } from './game'
 import { useInventoryStore } from './inventory'
 
-export const useTreecuttingStore = defineStore('treecutting', () => {
+export const useWoodcuttingStore = defineStore('woodcutting', () => {
   const gameStore = useGameStore()
   const inventoryStore = useInventoryStore()
 
   const trees = ref(TREES)
   const activeTreeId: Ref<TreeId | null> = ref(null)
 
+  const actionsCount = ref(0)
+
   const doubleTreeLogProbability = ref(0.05)
 
-  const toggleCutTree = (treeId: TreeId) => {
+  const toggleActiveAction = (treeId: TreeId) => {
     if (activeTreeId.value === treeId) {
       activeTreeId.value = null
       gameStore.stopAction()
@@ -22,12 +24,15 @@ export const useTreecuttingStore = defineStore('treecutting', () => {
     }
 
     activeTreeId.value = treeId
-    gameStore.startAction('treecutting', trees.value[treeId].interval)
+    gameStore.startAction('woodcutting', trees.value[treeId].interval)
   }
 
-  const executeSkillAction = () => {
+  const executeActiveAction = () => {
     // If no active tree, do nothing
     if (!activeTreeId.value) return
+
+    // Increment actions count
+    actionsCount.value += 1
 
     // Determine if we get double logs
     const doubleLogMultiplier = Math.random() < doubleTreeLogProbability.value ? 2 : 1
@@ -37,5 +42,5 @@ export const useTreecuttingStore = defineStore('treecutting', () => {
     inventoryStore.addItem(activeTree.producedItemId, 1 * doubleLogMultiplier)
   }
 
-  return { trees, activeTreeId, toggleCutTree, executeSkillAction }
+  return { trees, activeTreeId, actionsCount, toggleActiveAction, executeActiveAction }
 })

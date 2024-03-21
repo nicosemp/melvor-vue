@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 // import HomeView from '../views/HomeView.vue'
-import TreecuttingView from '@/views/TreecuttingView.vue'
+import WoodcuttingView from '@/views/WoodcuttingView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,12 +9,12 @@ const router = createRouter({
       path: '/',
       name: 'home',
       // component: HomeView
-      redirect: '/treecutting'
+      redirect: '/woodcutting'
     },
     {
-      path: '/treecutting',
-      name: 'treecutting',
-      component: TreecuttingView
+      path: '/woodcutting',
+      name: 'woodcutting',
+      component: WoodcuttingView
     },
     {
       path: '/about',
