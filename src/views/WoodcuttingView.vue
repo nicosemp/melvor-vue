@@ -2,22 +2,31 @@
 import { useInventoryStore } from '@/stores/inventory'
 import { useWoodcuttingStore } from '@/stores/woodcutting'
 
+import TheHeader from '@/components/layout/TheHeader.vue'
 import TheMain from '@/components/layout/TheMain.vue'
 import ProgressBar from '@/components/ProgressBar.vue'
+import ChipItem from '@/components/ui/ChipItem.vue'
 
 const inventoryStore = useInventoryStore()
 const woodcuttingStore = useWoodcuttingStore()
 </script>
 
 <template>
-  <TheMain>
-    <h2>Woodcutting</h2>
-    <p>Here you can cut down trees to get wood.</p>
+  <TheHeader
+    title="Woodcutting"
+    subtitle="Here you can cut down trees to get wood."
+    class="bg-green-600"
+  />
 
+  <TheMain>
     <div class="trees">
       <div v-for="(tree, treeId) in woodcuttingStore.trees" :key="treeId" class="tree">
-        <h3>{{ tree.name }}</h3>
-        <p>Quantity: {{ inventoryStore.items[tree.producedItemId].quantity }}</p>
+        <h3 class="mb-2">{{ tree.name }}</h3>
+
+        <ChipItem
+          :text="inventoryStore.items[tree.producedItemId].quantity.toString()"
+          class="mb-2"
+        />
 
         <ProgressBar
           :duration="tree.interval"
@@ -26,11 +35,11 @@ const woodcuttingStore = useWoodcuttingStore()
         />
 
         <button
-          class="btn-primary"
+          class="btn btn-green absolute top-2 right-2"
           :class="{ active: woodcuttingStore.activeTreeId === treeId }"
           @click="woodcuttingStore.toggleActiveAction(treeId)"
         >
-          Cut down
+          +
         </button>
       </div>
     </div>
@@ -39,9 +48,9 @@ const woodcuttingStore = useWoodcuttingStore()
 
 <style scoped>
 .trees {
-  @apply space-y-4;
+  @apply flex gap-4;
 }
 .tree {
-  @apply p-4 rounded-lg bg-slate-600 text-white;
+  @apply p-4 rounded-lg bg-slate-600 text-white w-48 relative;
 }
 </style>

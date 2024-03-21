@@ -1,4 +1,4 @@
-import { nextTick, ref, type Ref } from 'vue'
+import { ref, type Ref } from 'vue'
 import { defineStore } from 'pinia'
 
 import { TREES, type TreeId } from '@/constants/woodcutting'

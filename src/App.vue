@@ -6,6 +6,8 @@ import TheSidebar from '@/components/layout/TheSidebar.vue'
   <div class="flex h-screen">
     <TheSidebar />
 
-    <RouterView />
+    <div class="grow">
+      <RouterView />
+    </div>
   </div>
 </template>
