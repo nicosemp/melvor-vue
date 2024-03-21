@@ -7,15 +7,12 @@ import { useWoodcuttingStore } from './woodcutting'
 export const useGameStore = defineStore('game', () => {
   const woodcuttingStore = useWoodcuttingStore()
 
-  const tickCount = ref(0)
   let tickInterval: NodeJS.Timeout
 
   const activeSkill = ref<Skill | null>(null)
 
   const updateGame = () => {
-    tickCount.value += 1
-    // TODO: Add your game logic here (e.g., update entities, check collisions)
-
+    // Game logic: execute active skill action
     switch (activeSkill.value) {
       case 'woodcutting':
         woodcuttingStore.executeActiveAction()
@@ -42,5 +39,5 @@ export const useGameStore = defineStore('game', () => {
     clearInterval(tickInterval)
   })
 
-  return { tickCount, startAction, stopAction }
+  return { startAction, stopAction }
 })

@@ -1,14 +1,5 @@
-<script setup lang="ts">
-import WoodcuttingView from '@/views/WoodcuttingView.vue'
-import { useGameStore } from '@/stores/game'
-
-const gameStore = useGameStore()
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <main>
-    <p>{{ gameStore.tickCount }}</p>
-
-    <WoodcuttingView />
-  </main>
+  <main></main>
 </template>
