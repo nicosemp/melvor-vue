@@ -9,17 +9,17 @@ const props = defineProps<{
   width?: number
 
   /**
+   * Whether the progress bar should animate or not.
+   * @default false
+   */
+  animate?: boolean
+
+  /**
    * The duration of the progress bar animation in milliseconds.
    * @default 0
    * @example 4000
    */
   duration?: number
-
-  /**
-   * Whether the progress bar should animate or not.
-   * @default false
-   */
-  animate?: boolean
 
   /**
    * Swap between true and false to restart the animation from the beginning.
@@ -40,9 +40,9 @@ const props = defineProps<{
 
 <style scoped>
 .progress-bar {
-  @apply h-4 bg-green-400 rounded-full;
+  @apply h-6 bg-green-400 rounded-lg overflow-hidden;
   .progress {
-    @apply h-full bg-green-600 rounded-full;
+    @apply h-full bg-green-600;
     &.animate {
       animation: linear 0s 1 normal none running;
       &.animate-v1 {

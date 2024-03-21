@@ -18,7 +18,7 @@
 
 <style scoped>
 .sidebar {
-  @apply w-40 h-full bg-slate-600 text-white;
+  @apply w-32 h-full bg-slate-700 text-white;
 }
 .logo {
   @apply p-4;

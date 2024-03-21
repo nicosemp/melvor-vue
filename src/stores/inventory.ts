@@ -5,7 +5,7 @@ import { INVENTORY_ITEMS } from '@/constants/inventory'
 
 export const useInventoryStore = defineStore('inventory', () => {
   // This is saved to localStorage
-  // TODO: There is no way to overwrite the items in case of changes in the constants
+  // TODO: Find a way to overwrite the items in case of changes in the constants (game updates)
   const items = useStorage('inventory', INVENTORY_ITEMS)
 
   const addItem = (itemId: keyof typeof INVENTORY_ITEMS, quantity: number = 1) => {

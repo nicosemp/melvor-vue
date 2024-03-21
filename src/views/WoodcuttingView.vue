@@ -12,11 +12,7 @@ const woodcuttingStore = useWoodcuttingStore()
 </script>
 
 <template>
-  <TheHeader
-    title="Woodcutting"
-    subtitle="Here you can cut down trees to get wood."
-    class="bg-green-600"
-  />
+  <TheHeader title="Woodcutting" class="bg-green-600 text-white" />
 
   <TheMain>
     <div class="trees">
@@ -48,9 +44,9 @@ const woodcuttingStore = useWoodcuttingStore()
 
 <style scoped>
 .trees {
-  @apply flex gap-4;
+  @apply flex flex-wrap gap-4;
 }
 .tree {
-  @apply p-4 rounded-lg bg-slate-600 text-white w-48 relative;
+  @apply p-4 rounded-lg bg-slate-700 text-white w-56 relative;
 }
 </style>

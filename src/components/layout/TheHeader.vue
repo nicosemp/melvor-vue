@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
   title: string
-  subtitle: string
 }>()
 </script>
 
@@ -9,7 +8,6 @@ const props = defineProps<{
   <header class="header">
     <div class="skill-logo">
       <h1>{{ props.title }}</h1>
-      <p>{{ props.subtitle }}</p>
     </div>
 
     <div class="options">
