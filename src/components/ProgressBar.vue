@@ -32,7 +32,10 @@ const props = defineProps<{
   <div class="progress-bar">
     <div
       class="progress"
-      :class="[{ animate }, props.animationSwitcher ? 'animate-v1' : 'animate-v2']"
+      :class="[
+        { animate, 'transition-all': !animate },
+        props.animationSwitcher ? 'animate-v1' : 'animate-v2'
+      ]"
       :style="{ 'animation-duration': `${props.duration ?? 0}ms`, width: `${props.width ?? 0}%` }"
     ></div>
   </div>

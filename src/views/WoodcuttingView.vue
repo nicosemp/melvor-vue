@@ -6,6 +6,7 @@ import TheHeader from '@/components/layout/TheHeader.vue'
 import TheMain from '@/components/layout/TheMain.vue'
 import ProgressBar from '@/components/ProgressBar.vue'
 import ChipItem from '@/components/ui/ChipItem.vue'
+import SkillProgress from '@/components/SkillProgress.vue'
 
 const inventoryStore = useInventoryStore()
 const woodcuttingStore = useWoodcuttingStore()
@@ -15,6 +16,8 @@ const woodcuttingStore = useWoodcuttingStore()
   <TheHeader title="Woodcutting" class="bg-green-600 text-white" />
 
   <TheMain>
+    <SkillProgress class="mb-4" skill="woodcutting" />
+
     <div class="trees">
       <div v-for="(tree, treeId) in woodcuttingStore.trees" :key="treeId" class="tree">
         <h3 class="mb-2">{{ tree.name }}</h3>
@@ -31,7 +34,7 @@ const woodcuttingStore = useWoodcuttingStore()
         />
 
         <button
-          class="btn btn-green absolute top-2 right-2"
+          class="btn btn-green absolute top-4 right-4"
           :class="{ active: woodcuttingStore.activeTreeId === treeId }"
           @click="woodcuttingStore.toggleActiveAction(treeId)"
         >

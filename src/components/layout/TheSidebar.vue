@@ -1,5 +1,10 @@
 <script setup lang="ts">
 // import { RouterView } from 'vue-router'
+import { useSkillsStore } from '@/stores/skills'
+
+import ChipItem from '../ui/ChipItem.vue'
+
+const skillsStore = useSkillsStore()
 </script>
 
 <template>
@@ -10,7 +15,9 @@
 
     <nav>
       <!-- <RouterLink to="/">Home</RouterLink> -->
-      <RouterLink to="/woodcutting">Woodcutting</RouterLink>
+      <RouterLink to="/woodcutting"
+        >Woodcutting <ChipItem :text="`${skillsStore.levelData.woodcutting.level}/120`"
+      /></RouterLink>
       <RouterLink to="/about">About</RouterLink>
     </nav>
   </div>
@@ -18,7 +25,7 @@
 
 <style scoped>
 .sidebar {
-  @apply w-32 h-full bg-slate-700 text-white;
+  @apply w-48 h-full bg-slate-700 text-white;
 }
 .logo {
   @apply p-4;
