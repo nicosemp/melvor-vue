@@ -4,10 +4,16 @@ import { onMounted } from 'vue'
 import TheSidebar from '@/components/layout/TheSidebar.vue'
 import { useSaveGame } from '@/composables/useSaveGame'
 
-const { loadGameSave } = useSaveGame()
+const { saveGame, loadGameSave } = useSaveGame()
 
+const TEN_SECONDS = 10 * 1000
 onMounted(() => {
   loadGameSave()
+
+  // Save the game every 10 seconds
+  setInterval(() => {
+    saveGame()
+  }, TEN_SECONDS)
 })
 </script>
 
