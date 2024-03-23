@@ -16,7 +16,12 @@ const woodcuttingStore = useWoodcuttingStore()
   <TheHeader title="Woodcutting" class="bg-green-600 text-white" />
 
   <TheMain>
-    <SkillProgress class="mb-4" skill="woodcutting" />
+    <SkillProgress
+      class="mb-4"
+      :level="woodcuttingStore.level"
+      :expOverCurrentLevel="woodcuttingStore.expOverCurrentLevel"
+      :expToNextLevel="woodcuttingStore.expToNextLevel"
+    />
 
     <div class="trees">
       <div v-for="(tree, treeId) in woodcuttingStore.trees" :key="treeId" class="tree">

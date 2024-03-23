@@ -1,10 +1,10 @@
 <script setup lang="ts">
 // import { RouterView } from 'vue-router'
-import { useSkillsStore } from '@/stores/skills'
+import { useWoodcuttingStore } from '@/stores/woodcutting'
 
 import ChipItem from '../ui/ChipItem.vue'
 
-const skillsStore = useSkillsStore()
+const woodcuttingStore = useWoodcuttingStore()
 </script>
 
 <template>
@@ -15,9 +15,9 @@ const skillsStore = useSkillsStore()
 
     <nav>
       <!-- <RouterLink to="/">Home</RouterLink> -->
-      <RouterLink to="/woodcutting"
-        >Woodcutting <ChipItem :text="`${skillsStore.levelData.woodcutting.level}/120`"
-      /></RouterLink>
+      <RouterLink to="/woodcutting">
+        Woodcutting <ChipItem :text="`${woodcuttingStore.level}/120`" />
+      </RouterLink>
       <RouterLink to="/about">About</RouterLink>
     </nav>
   </div>

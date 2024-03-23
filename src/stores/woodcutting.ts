@@ -1,16 +1,18 @@
 import { ref, type Ref } from 'vue'
 import { defineStore } from 'pinia'
 
-import { TREES, type TreeId } from '@/constants/woodcutting'
-
 import { useGameStore } from './game'
 import { useInventoryStore } from './inventory'
-import { useSkillsStore } from './skills'
+
+import { useSkillExperience } from '@/composables/useSkillExperience'
+
+import { TREES, type TreeId } from '@/constants/woodcutting'
 
 export const useWoodcuttingStore = defineStore('woodcutting', () => {
   const gameStore = useGameStore()
   const inventoryStore = useInventoryStore()
-  const skillsStore = useSkillsStore()
+
+  const { exp, level, expOverCurrentLevel, expToNextLevel, setExp, gainExp } = useSkillExperience()
 
   const trees = ref(TREES)
   const activeTreeId: Ref<TreeId | null> = ref(null)
@@ -44,8 +46,20 @@ export const useWoodcuttingStore = defineStore('woodcutting', () => {
     inventoryStore.addItem(activeTree.producedItemId, 1 * doubleLogMultiplier)
 
     // Gain experience
-    skillsStore.gainExperience('woodcutting', activeTree.exp)
+    // skillsStore.gainExperience('woodcutting', activeTree.exp)
+    gainExp(activeTree.exp)
   }
 
-  return { trees, activeTreeId, actionsCount, toggleActiveAction, executeActiveAction }
+  return {
+    exp,
+    setExp,
+    level,
+    expOverCurrentLevel,
+    expToNextLevel,
+    trees,
+    activeTreeId,
+    actionsCount,
+    toggleActiveAction,
+    executeActiveAction
+  }
 })

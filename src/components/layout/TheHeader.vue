@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import { useSaveGame } from '@/composables/useSaveGame'
+
 const props = defineProps<{
   title: string
 }>()
+
+const { saveGame } = useSaveGame()
 </script>
 
 <template>
@@ -11,7 +15,7 @@ const props = defineProps<{
     </div>
 
     <div class="options">
-      <button class="btn" @click="console.log('SAVE TO CLOUD???')">Save</button>
+      <button class="btn" @click="saveGame">Save</button>
     </div>
   </header>
 </template>
