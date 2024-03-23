@@ -1,4 +1,6 @@
-export type InventoryItemId = 1 | 2 | 3 | 4
+// TODO: Reorganize these items' type and constants
+// in a way that can be used well by the store and the components
+export type InventoryItemId = 'wood1' | 'wood2' | 'wood3' | 'wood4'
 
 export type InventoryItems = {
   [id in InventoryItemId]: {
@@ -8,19 +10,19 @@ export type InventoryItems = {
 }
 
 export const INVENTORY_ITEMS: InventoryItems = {
-  1: {
+  wood1: {
     name: 'Oak Log',
     quantity: 0
   },
-  2: {
+  wood2: {
     name: 'Pine Log',
     quantity: 0
   },
-  3: {
+  wood3: {
     name: 'Birch Log',
     quantity: 0
   },
-  4: {
+  wood4: {
     name: 'Willow Log',
     quantity: 0
   }

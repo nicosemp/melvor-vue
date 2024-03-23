@@ -7,6 +7,7 @@ import TheMain from '@/components/layout/TheMain.vue'
 import ProgressBar from '@/components/ProgressBar.vue'
 import ChipItem from '@/components/ui/ChipItem.vue'
 import SkillProgress from '@/components/SkillProgress.vue'
+import { onMounted } from 'vue'
 
 const inventoryStore = useInventoryStore()
 const woodcuttingStore = useWoodcuttingStore()
