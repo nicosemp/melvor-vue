@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 
 import { useSkillExperience } from '@/composables/useSkillExperience'
 import { TREES } from '@/constants/woodcutting'
-import type { TreeId } from '@/types/woodcutting'
+import type { ActiveTreeId, TreeId } from '@/types/woodcutting'
 
 import { useGameStore } from './game'
 import { useInventoryStore } from './inventory'
@@ -15,7 +15,7 @@ export const useWoodcuttingStore = defineStore('woodcutting', () => {
   const { exp, level, expOverCurrentLevel, expToNextLevel, gainExp } = useSkillExperience()
 
   const trees = ref(TREES)
-  const activeTreeId: Ref<TreeId | null> = ref(null)
+  const activeTreeId: Ref<ActiveTreeId> = ref(null)
 
   const toggleActiveAction = (treeId: TreeId) => {
     if (activeTreeId.value === treeId) {

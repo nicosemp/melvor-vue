@@ -10,3 +10,5 @@ export type Trees = {
     readonly exp: number
   }
 }
+
+export type ActiveTreeId = TreeId | null

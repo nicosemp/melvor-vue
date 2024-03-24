@@ -1,7 +1,7 @@
 import { ref, onUnmounted } from 'vue'
 import { defineStore } from 'pinia'
 
-import type { Skill } from '@/types/game'
+import type { ActiveSkill, Skill } from '@/types/game'
 
 import { useWoodcuttingStore } from './woodcutting'
 
@@ -10,7 +10,7 @@ export const useGameStore = defineStore('game', () => {
 
   let tickInterval: NodeJS.Timeout
 
-  const activeSkill = ref<Skill | null>(null)
+  const activeSkill = ref<ActiveSkill>(null)
 
   const updateGame = () => {
     // Game logic: execute active skill action
@@ -40,5 +40,5 @@ export const useGameStore = defineStore('game', () => {
     clearInterval(tickInterval)
   })
 
-  return { startAction, stopAction }
+  return { activeSkill, startAction, stopAction }
 })
