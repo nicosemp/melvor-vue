@@ -33,14 +33,6 @@ export const useSkillExperience = () => {
   }
 
   /**
-   * Set a specific amount of experience.
-   * @param amount The amount of exp to set.
-   */
-  const setExp = (amount: number) => {
-    exp.value = amount
-  }
-
-  /**
    * Gain a specific amount of experience.
    * @param amount The amount of exp to add.
    */
@@ -48,5 +40,5 @@ export const useSkillExperience = () => {
     exp.value += amount
   }
 
-  return { exp, level, expOverCurrentLevel, expToNextLevel, setExp, gainExp }
+  return { exp, level, expOverCurrentLevel, expToNextLevel, gainExp }
 }

@@ -1,29 +1,24 @@
-// TODO: Reorganize these items' type and constants
-// in a way that can be used well by the store and the components
-export type InventoryItemId = 'wood1' | 'wood2' | 'wood3' | 'wood4'
+import type { InventoryItems, InventoryItemId } from '@/types/inventory'
 
-export type InventoryItems = {
-  [id in InventoryItemId]: {
-    readonly name: string
-    quantity: number
+// TODO: Find a way to update the items constant in case of game updates
+export const INVENTORY_ITEMS: InventoryItems = {
+  wood1: {
+    name: 'Oak Log'
+  },
+  wood2: {
+    name: 'Pine Log'
+  },
+  wood3: {
+    name: 'Birch Log'
+  },
+  wood4: {
+    name: 'Willow Log'
   }
 }
 
-export const INVENTORY_ITEMS: InventoryItems = {
-  wood1: {
-    name: 'Oak Log',
-    quantity: 0
-  },
-  wood2: {
-    name: 'Pine Log',
-    quantity: 0
-  },
-  wood3: {
-    name: 'Birch Log',
-    quantity: 0
-  },
-  wood4: {
-    name: 'Willow Log',
-    quantity: 0
-  }
+export const itemsQuantitiesDefault: { [id in InventoryItemId]: number } = {
+  wood1: 0,
+  wood2: 0,
+  wood3: 0,
+  wood4: 0
 }

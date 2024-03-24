@@ -1,7 +1,8 @@
 import { ref, onUnmounted } from 'vue'
 import { defineStore } from 'pinia'
 
-import { type Skill } from '@/constants/game'
+import type { Skill } from '@/types/game'
+
 import { useWoodcuttingStore } from './woodcutting'
 
 export const useGameStore = defineStore('game', () => {

@@ -1,13 +1,19 @@
 import { useInventoryStore } from '@/stores/inventory'
 import { useWoodcuttingStore } from '@/stores/woodcutting'
+import type { ItemsQuantities } from '@/types/inventory'
+
+type gameSave = {
+  inventory: ItemsQuantities
+  woodcuttingExp: number
+}
 
 export const useSaveGame = () => {
   const inventoryStore = useInventoryStore()
   const woodcuttingStore = useWoodcuttingStore()
 
   const saveGame = () => {
-    const gameSave = {
-      inventory: inventoryStore.getItemsQuantities(),
+    const gameSave: gameSave = {
+      inventory: inventoryStore.itemsQuantities,
       woodcuttingExp: woodcuttingStore.exp
     }
     const gameSaveString = JSON.stringify(gameSave)
@@ -19,11 +25,10 @@ export const useSaveGame = () => {
     const gameSaveB64 = localStorage.getItem('gamesave')
     if (gameSaveB64) {
       const gameSaveString = atob(gameSaveB64)
-      const gameSave = JSON.parse(gameSaveString)
+      const gameSave: gameSave = JSON.parse(gameSaveString)
 
-      // TODO: Help TypeScript understand that gameSave is a valid object
-      inventoryStore.setItemsQuantities(gameSave.inventory)
-      woodcuttingStore.setExp(gameSave.woodcuttingExp)
+      inventoryStore.itemsQuantities = gameSave.inventory
+      woodcuttingStore.exp = gameSave.woodcuttingExp
     }
   }
 
