@@ -16,7 +16,8 @@ const progressBarWidth = computed(() => {
 
 <template>
   <div class="skill-progress">
-    <ProgressBar :width="progressBarWidth" />
+    <ProgressBar :width="progressBarWidth" thin />
+
     <div class="pt-2"></div>
 
     <ChipItem :text="`XP: ${props.expOverCurrentLevel}/${props.expToNextLevel}`" />

@@ -47,9 +47,9 @@ const animationSwitcher = computed(() => woodcuttingStore.actionsCount % 2 === 0
 <style scoped>
 .tree {
   @apply p-4 rounded-lg w-56;
-  @apply bg-slate-700 text-white transition-all cursor-pointer;
+  @apply bg-slate-700 text-white transition-all;
   &:not(.disabled) {
-    @apply hover:bg-slate-800 hover:-translate-y-1 active:translate-y-0;
+    @apply hover:bg-slate-800 hover:-translate-y-1 active:translate-y-0 cursor-pointer;
   }
 }
 </style>

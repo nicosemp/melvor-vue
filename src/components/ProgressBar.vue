@@ -9,6 +9,12 @@ const props = defineProps<{
   width?: number
 
   /**
+   * Whether the progress bar should be thin or not.
+   * @default false
+   */
+  thin?: boolean
+
+  /**
    * Whether the progress bar should animate or not.
    * @default false
    */
@@ -34,7 +40,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div class="progress-bar" :class="{ disabled: props.isDisabled }">
+  <div class="progress-bar" :class="{ disabled: props.isDisabled, thin: props.thin }">
     <div
       class="progress"
       :class="[
@@ -51,6 +57,9 @@ const props = defineProps<{
   @apply h-6 bg-green-400 rounded-lg overflow-hidden;
   &.disabled {
     @apply bg-gray-300;
+  }
+  &.thin {
+    @apply h-3;
   }
   .progress {
     @apply h-full bg-green-600;
