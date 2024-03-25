@@ -38,7 +38,7 @@ export const useSaveGame = () => {
       const gameSaveString = atob(gameSaveB64)
       const gameSave: gameSave = JSON.parse(gameSaveString)
 
-      inventoryStore.itemsQuantities = gameSave.inventory
+      inventoryStore.itemsQuantities = { ...inventoryStore.itemsQuantities, ...gameSave.inventory }
       woodcuttingStore.exp = gameSave.woodcuttingExp
 
       if (gameSave.activeSkill && gameSave.activeTree) {
