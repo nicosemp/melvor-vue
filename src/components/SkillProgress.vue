@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { SKILLS_MAX_LEVEL } from '@/constants/game'
-
 import ProgressBar from './ProgressBar.vue'
 import ChipItem from './ui/ChipItem.vue'
 
 const props = defineProps<{
-  level: number
   expOverCurrentLevel: number
   expToNextLevel: number
 }>()
@@ -20,7 +17,9 @@ const progressBarWidth = computed(() => {
 <template>
   <div class="skill-progress">
     <ProgressBar :width="progressBarWidth" />
-    <ChipItem :text="`${props.level}/${SKILLS_MAX_LEVEL}`" />
+    <div class="pt-2"></div>
+
+    <ChipItem :text="`XP: ${props.expOverCurrentLevel}/${props.expToNextLevel}`" />
   </div>
 </template>
 

@@ -25,11 +25,16 @@ const props = defineProps<{
    * Swap between true and false to restart the animation from the beginning.
    */
   animationSwitcher?: boolean
+
+  /**
+   * Whether the progress bar should be disabled or not.
+   */
+  isDisabled?: boolean
 }>()
 </script>
 
 <template>
-  <div class="progress-bar">
+  <div class="progress-bar" :class="{ disabled: props.isDisabled }">
     <div
       class="progress"
       :class="[
@@ -44,6 +49,9 @@ const props = defineProps<{
 <style scoped>
 .progress-bar {
   @apply h-6 bg-green-400 rounded-lg overflow-hidden;
+  &.disabled {
+    @apply bg-gray-300;
+  }
   .progress {
     @apply h-full bg-green-600;
     &.animate {
