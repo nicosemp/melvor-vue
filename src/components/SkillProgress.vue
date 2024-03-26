@@ -20,7 +20,7 @@ const progressBarWidth = computed(() => {
 
     <div class="pt-2"></div>
 
-    <ChipItem :text="`XP: ${props.expOverCurrentLevel}/${props.expToNextLevel}`" />
+    <ChipItem :text="`XP ${props.expOverCurrentLevel}/${props.expToNextLevel}`" />
   </div>
 </template>
 

@@ -7,8 +7,9 @@ import type { ItemsQuantities } from '@/types/inventory'
 import type { ActiveTreeId } from '@/types/woodcutting'
 
 type gameSave = {
+  time: number
   inventory: ItemsQuantities
-  // TODO: Rename to activeSkillId and ActiveSkillId
+  // TODO: Refactor to activeSkillId and ActiveSkillId
   activeSkill: ActiveSkill
   activeTree: ActiveTreeId
   woodcuttingExp: number
@@ -21,6 +22,7 @@ export const useSaveGame = () => {
 
   const saveGame = () => {
     const gameSave: gameSave = {
+      time: Date.now(),
       inventory: inventoryStore.itemsQuantities,
       // TODO: activeSkill and activeTree should be saved differently. this is too messy
       activeSkill: gameStore.activeSkill,
@@ -44,6 +46,14 @@ export const useSaveGame = () => {
       if (gameSave.activeSkill && gameSave.activeTree) {
         woodcuttingStore.activeTreeId = gameSave.activeTree
         gameStore.startAction(gameSave.activeSkill, TREES[gameSave.activeTree].interval)
+
+        // FIXME: The offline progression should be refactored together with
+        // activeSkill and activeTree.
+        // How it is right now, it's too coupled with the Woodcutting skill.
+        const offlineActions = Math.floor(
+          (Date.now() - gameSave.time) / TREES[gameSave.activeTree].interval
+        )
+        gameStore.executeOfflineProgress(offlineActions)
       }
     }
   }

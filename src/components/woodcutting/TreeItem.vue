@@ -29,8 +29,14 @@ const animationSwitcher = computed(() => woodcuttingStore.actionsCount % 2 === 0
     <h4 class="mb-2 text-center">{{ isUnlocked ? tree.name : 'Locked' }}</h4>
 
     <div class="flex justify-center gap-2">
-      <ChipItem v-if="isUnlocked" :text="`XP: ${tree.exp}`" />
-      <ChipItem v-else :text="`Level ${tree.requirements.level}`" :type="!isUnlocked && 'danger'" />
+      <ChipItem v-if="isUnlocked" :text="`XP ${tree.exp}`" />
+      <ChipItem v-if="isUnlocked" :text="`${tree.interval / 1000}s`" />
+
+      <ChipItem
+        v-if="!isUnlocked"
+        :text="`Level ${tree.requirements.level}`"
+        :type="!isUnlocked && 'danger'"
+      />
     </div>
 
     <div class="pt-2"></div>

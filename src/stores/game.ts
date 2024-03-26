@@ -45,5 +45,11 @@ export const useGameStore = defineStore('game', () => {
     clearInterval(tickInterval)
   })
 
-  return { activeSkill, startAction, stopAction }
+  const executeOfflineProgress = (offlineActions: number) => {
+    for (let i = 0; i < offlineActions; i++) {
+      updateGame()
+    }
+  }
+
+  return { activeSkill, startAction, stopAction, executeOfflineProgress }
 })
