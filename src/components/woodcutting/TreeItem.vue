@@ -26,7 +26,7 @@ const animationSwitcher = computed(() => woodcuttingStore.actionsCount % 2 === 0
     :class="{ disabled: !isUnlocked }"
     @click="isUnlocked && woodcuttingStore.toggleActiveAction(props.treeId)"
   >
-    <h3 class="mb-2 text-center">{{ isUnlocked ? tree.name : 'Locked' }}</h3>
+    <h4 class="mb-2 text-center">{{ isUnlocked ? tree.name : 'Locked' }}</h4>
 
     <div class="flex justify-center gap-2">
       <ChipItem v-if="isUnlocked" :text="`XP: ${tree.exp}`" />

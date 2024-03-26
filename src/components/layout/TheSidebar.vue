@@ -13,9 +13,13 @@ const woodcuttingStore = useWoodcuttingStore()
       <h1>Melvue</h1>
     </div>
 
+    <div class="pt-4"></div>
+
     <nav>
-      <!-- <RouterLink to="/">Home</RouterLink> -->
+      <RouterLink to="/inventory">Inventory</RouterLink>
+
       <span class="nav-section-title">Skills</span>
+
       <RouterLink to="/woodcutting">
         Woodcutting <ChipItem :text="`${woodcuttingStore.level}/${SKILLS_MAX_LEVEL}`" />
       </RouterLink>
@@ -29,8 +33,10 @@ const woodcuttingStore = useWoodcuttingStore()
   @apply w-52 h-full bg-slate-700 text-white;
 }
 .logo {
-  @apply p-4;
+  @apply p-4 text-center;
+  @apply bg-slate-800 rounded-b-3xl;
 }
+
 .nav-section-title {
   @apply inline-block uppercase font-bold px-4 py-2;
 }

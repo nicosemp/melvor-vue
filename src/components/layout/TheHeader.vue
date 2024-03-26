@@ -11,7 +11,7 @@ const { saveGame } = useSaveGame()
 <template>
   <header class="header">
     <div class="skill-logo">
-      <h1>{{ props.title }}</h1>
+      <h4>{{ props.title }}</h4>
     </div>
 
     <div class="options">

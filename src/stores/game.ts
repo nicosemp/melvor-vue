@@ -29,6 +29,11 @@ export const useGameStore = defineStore('game', () => {
     // Start new action
     activeSkill.value = skill
     tickInterval = setInterval(updateGame, tickRate)
+    // FIXME: This runs on any screen, but the ProgressBar animation
+    // only works on the Woodcutting screen.
+    // The animation should start with the remaining time of the Interval.
+    // If the Interval is 5 seconds and 3 seconds already passed,
+    // the ProgressBar should start at 60%.
   }
 
   const stopAction = () => {
