@@ -1,4 +1,3 @@
-import { TREES } from '@/constants/woodcutting'
 import { useGameStore } from '@/stores/game'
 import { useInventoryStore } from '@/stores/inventory'
 import { useWoodcuttingStore } from '@/stores/woodcutting'
@@ -9,10 +8,11 @@ import type { ActiveTreeId } from '@/types/woodcutting'
 type gameSave = {
   time: number
   inventory: ItemsQuantities
-  // TODO: Refactor to activeSkillId and ActiveSkillId
-  activeSkill: ActiveSkill
-  activeTree: ActiveTreeId
-  woodcuttingExp: number
+  activeSkillId: ActiveSkill
+  woodcutting: {
+    exp: number
+    activeTreeId: ActiveTreeId
+  }
 }
 
 export const useSaveGame = () => {
@@ -24,10 +24,11 @@ export const useSaveGame = () => {
     const gameSave: gameSave = {
       time: Date.now(),
       inventory: inventoryStore.itemsQuantities,
-      // TODO: activeSkill and activeTree should be saved differently. this is too messy
-      activeSkill: gameStore.activeSkill,
-      activeTree: woodcuttingStore.activeTreeId,
-      woodcuttingExp: woodcuttingStore.exp
+      activeSkillId: gameStore.activeSkillId,
+      woodcutting: {
+        exp: woodcuttingStore.exp,
+        activeTreeId: woodcuttingStore.activeTreeId
+      }
     }
     const gameSaveString = JSON.stringify(gameSave)
     const gameSaveB64 = btoa(gameSaveString)
@@ -36,24 +37,23 @@ export const useSaveGame = () => {
 
   const loadGameSave = () => {
     const gameSaveB64 = localStorage.getItem('gamesave')
-    if (gameSaveB64) {
-      const gameSaveString = atob(gameSaveB64)
-      const gameSave: gameSave = JSON.parse(gameSaveString)
+    if (!gameSaveB64) return
 
-      inventoryStore.itemsQuantities = { ...inventoryStore.itemsQuantities, ...gameSave.inventory }
-      woodcuttingStore.exp = gameSave.woodcuttingExp
+    const gameSaveString = atob(gameSaveB64)
+    const gameSave: gameSave = JSON.parse(gameSaveString)
 
-      if (gameSave.activeSkill && gameSave.activeTree) {
-        woodcuttingStore.activeTreeId = gameSave.activeTree
-        gameStore.startAction(gameSave.activeSkill, TREES[gameSave.activeTree].interval)
+    inventoryStore.itemsQuantities = { ...inventoryStore.itemsQuantities, ...gameSave.inventory }
+    woodcuttingStore.exp = gameSave.woodcutting.exp
 
-        // FIXME: The offline progression should be refactored together with
-        // activeSkill and activeTree.
-        // How it is right now, it's too coupled with the Woodcutting skill.
-        const offlineActions = Math.floor(
-          (Date.now() - gameSave.time) / TREES[gameSave.activeTree].interval
-        )
-        gameStore.executeOfflineProgress(offlineActions)
+    if (gameSave.activeSkillId) {
+      gameStore.activeSkillId = gameSave.activeSkillId
+      switch (gameSave.activeSkillId) {
+        case 'woodcutting':
+          woodcuttingStore.executeOfflineProgress(gameSave.time, gameSave.woodcutting.activeTreeId)
+          break
+
+        default:
+          break
       }
     }
   }

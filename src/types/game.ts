@@ -1,3 +1,3 @@
-export type Skill = 'woodcutting'
+export type SkillId = 'woodcutting'
 
-export type ActiveSkill = Skill | null
+export type ActiveSkill = SkillId | null

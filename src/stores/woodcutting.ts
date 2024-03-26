@@ -1,34 +1,35 @@
 import { ref, type Ref } from 'vue'
 import { defineStore } from 'pinia'
 
+import { useSkillAction } from '@/composables/useSkillAction'
 import { useSkillExperience } from '@/composables/useSkillExperience'
 import { TREES } from '@/constants/woodcutting'
 import type { ActiveTreeId, TreeId } from '@/types/woodcutting'
 
-import { useGameStore } from './game'
 import { useInventoryStore } from './inventory'
 
-export const useWoodcuttingStore = defineStore('woodcutting', () => {
-  const gameStore = useGameStore()
+const SKILL_NAME = 'woodcutting'
+
+export const useWoodcuttingStore = defineStore(SKILL_NAME, () => {
   const inventoryStore = useInventoryStore()
 
+  const { activateAction, deactivateAction } = useSkillAction(SKILL_NAME)
   const { exp, level, expOverCurrentLevel, expToNextLevel, gainExp } = useSkillExperience()
 
-  const trees = ref(TREES)
   const activeTreeId: Ref<ActiveTreeId> = ref(null)
 
   const toggleActiveAction = (treeId: TreeId) => {
     if (activeTreeId.value === treeId) {
       activeTreeId.value = null
-      gameStore.stopAction()
+      deactivateAction()
       return
     }
 
     activeTreeId.value = treeId
-    gameStore.startAction('woodcutting', trees.value[treeId].interval)
+    activateAction(TREES[treeId].interval, executeActiveAction)
   }
 
-  const doubleTreeLogProbability = ref(0.05)
+  const doubleLogProbability = ref(0.05)
   const actionsCount = ref(0)
 
   const executeActiveAction = () => {
@@ -39,15 +40,28 @@ export const useWoodcuttingStore = defineStore('woodcutting', () => {
     actionsCount.value += 1
 
     // Determine if we get double logs
-    const doubleLogMultiplier = Math.random() < doubleTreeLogProbability.value ? 2 : 1
+    const doubleLogMultiplier = Math.random() < doubleLogProbability.value ? 2 : 1
 
     // Generate a tree log
-    const activeTree = trees.value[activeTreeId.value]
+    const activeTree = TREES[activeTreeId.value]
     inventoryStore.addItem(activeTree.producedItemId, 1 * doubleLogMultiplier)
 
     // Gain experience
-    // skillsStore.gainExperience('woodcutting', activeTree.exp)
     gainExp(activeTree.exp)
+  }
+
+  const executeOfflineProgress = (saveTime: number, savedActiveTreeId: ActiveTreeId) => {
+    if (!savedActiveTreeId) return
+
+    activeTreeId.value = savedActiveTreeId
+    const interval = TREES[savedActiveTreeId].interval
+    const offlineActions = Math.floor((Date.now() - saveTime) / interval)
+
+    for (let i = 0; i < offlineActions; i++) {
+      executeActiveAction()
+    }
+
+    activateAction(interval, executeActiveAction)
   }
 
   return {
@@ -55,10 +69,11 @@ export const useWoodcuttingStore = defineStore('woodcutting', () => {
     level,
     expOverCurrentLevel,
     expToNextLevel,
-    trees,
     activeTreeId,
     actionsCount,
     toggleActiveAction,
-    executeActiveAction
+    executeActiveAction,
+    activateAction,
+    executeOfflineProgress
   }
 })
