@@ -49,7 +49,7 @@ const itemQuantity = computed(() =>
 <style scoped>
 .details {
   @apply basis-96 shrink-0;
-  @apply bg-slate-800 text-white p-4 rounded-xl;
+  @apply bg-slate-800 p-4 rounded-xl;
 }
 
 .image,
@@ -63,7 +63,7 @@ const itemQuantity = computed(() =>
   .lock {
     @apply absolute top-0 left-0;
     @apply w-6 h-6 p-1 rounded;
-    @apply text-xs text-white bg-red-400;
+    @apply text-xs bg-red-400;
   }
 }
 .name {

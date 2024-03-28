@@ -7,6 +7,7 @@ import type { ActiveTreeId } from '@/types/woodcutting'
 
 type gameSave = {
   time: number
+  coins: number
   inventory: ItemsQuantities
   activeSkillId: ActiveSkill
   woodcutting: {
@@ -23,6 +24,7 @@ export const useSaveGame = () => {
   const saveGame = () => {
     const gameSave: gameSave = {
       time: Date.now(),
+      coins: inventoryStore.coins,
       inventory: inventoryStore.itemsQuantities,
       activeSkillId: gameStore.activeSkillId,
       woodcutting: {
@@ -42,6 +44,7 @@ export const useSaveGame = () => {
     const gameSaveString = atob(gameSaveB64)
     const gameSave: gameSave = JSON.parse(gameSaveString)
 
+    inventoryStore.coins = gameSave.coins
     inventoryStore.itemsQuantities = { ...inventoryStore.itemsQuantities, ...gameSave.inventory }
     woodcuttingStore.exp = gameSave.woodcutting.exp
 

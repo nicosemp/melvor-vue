@@ -26,6 +26,6 @@ const progressBarWidth = computed(() => {
 
 <style scoped>
 .skill-progress {
-  @apply bg-slate-700 text-white p-4 rounded-lg;
+  @apply bg-slate-700 p-4 rounded-lg;
 }
 </style>

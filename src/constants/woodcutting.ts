@@ -3,6 +3,7 @@ import type { Trees } from '@/types/woodcutting'
 export const TREES: Trees = {
   tree1: {
     name: 'Normal Tree',
+    imageName: 'normal-tree',
     exp: 10,
     interval: 3000,
     // TODO: Should this producedItemId should come from a mapping one to many?
@@ -12,6 +13,7 @@ export const TREES: Trees = {
   },
   tree2: {
     name: 'Oak Tree',
+    imageName: 'oak-tree',
     exp: 15,
     interval: 4000,
     producedItemId: 'wood2',
@@ -19,6 +21,7 @@ export const TREES: Trees = {
   },
   tree3: {
     name: 'Willow Tree',
+    imageName: 'willow-tree',
     exp: 22,
     interval: 5000,
     producedItemId: 'wood3',
@@ -26,6 +29,7 @@ export const TREES: Trees = {
   },
   tree4: {
     name: 'Teak Tree',
+    imageName: 'teak-tree',
     exp: 30,
     interval: 6000,
     producedItemId: 'wood4',
@@ -33,6 +37,7 @@ export const TREES: Trees = {
   },
   tree5: {
     name: 'Maple Tree',
+    imageName: 'maple-tree',
     exp: 40,
     interval: 8000,
     producedItemId: 'wood5',
@@ -40,6 +45,7 @@ export const TREES: Trees = {
   },
   tree6: {
     name: 'Mahogany Tree',
+    imageName: 'mahogany-tree',
     exp: 60,
     interval: 10000,
     producedItemId: 'wood6',
@@ -47,6 +53,7 @@ export const TREES: Trees = {
   },
   tree7: {
     name: 'Yew Tree',
+    imageName: 'yew-tree',
     exp: 80,
     interval: 12000,
     producedItemId: 'wood7',
@@ -54,6 +61,7 @@ export const TREES: Trees = {
   },
   tree8: {
     name: 'Magic Tree',
+    imageName: 'magic-tree',
     exp: 100,
     interval: 20000,
     producedItemId: 'wood8',
@@ -61,6 +69,7 @@ export const TREES: Trees = {
   },
   tree9: {
     name: 'Redwood Tree',
+    imageName: 'redwood-tree',
     exp: 180,
     interval: 15000,
     producedItemId: 'wood9',

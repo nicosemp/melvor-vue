@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import InventoryView from '@/views/InventoryView.vue'
+import ShopView from '@/views/ShopView.vue'
 import WoodcuttingView from '@/views/WoodcuttingView.vue'
 
 const router = createRouter({
@@ -14,14 +15,19 @@ const router = createRouter({
       redirect: '/woodcutting'
     },
     {
-      path: '/woodcutting',
-      name: 'woodcutting',
-      component: WoodcuttingView
+      path: '/shop',
+      name: 'shop',
+      component: ShopView
     },
     {
       path: '/inventory',
       name: 'inventory',
       component: InventoryView
+    },
+    {
+      path: '/woodcutting',
+      name: 'woodcutting',
+      component: WoodcuttingView
     },
     {
       path: '/about',

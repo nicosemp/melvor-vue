@@ -14,6 +14,7 @@ export type InventoryItemId =
 export type InventoryItems = {
   [id in InventoryItemId]: {
     readonly name: string
+    readonly value: number
   }
 }
 

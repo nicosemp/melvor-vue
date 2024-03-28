@@ -13,6 +13,7 @@ export type TreeId =
 
 export type Tree = {
   readonly name: string
+  readonly imageName: string
   readonly interval: number
   readonly producedItemId: InventoryItemId
   readonly exp: number

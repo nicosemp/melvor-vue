@@ -22,25 +22,35 @@ const selectItem = (itemId: InventoryItemId) => {
 </script>
 
 <template>
-  <TheHeader title="Inventory" class="bg-blue-600 text-white" />
+  <TheHeader title="Inventory" class="bg-blue-600" />
 
   <TheMain>
     <div class="flex gap-4 w-full items-start">
-      <div class="items">
-        <div
-          v-for="(item, itemId) in INVENTORY_ITEMS"
-          :key="itemId"
-          class="item"
-          :class="{ selected: selectedItemId === itemId }"
-          @click="selectItem(itemId)"
-        >
-          <img :src="`/src/assets/items/${itemId}.png`" :alt="item.name" />
+      <div class="inventory-main">
+        <div class="tabs">
+          <span>items</span>
+          <ChipItem :text="inventoryStore.inventoryValue.toString()" class="bg-yellow-600" />
+        </div>
 
-          <ChipItem
-            :text="`${inventoryStore.itemsQuantities[itemId]}`"
-            class="absolute -bottom-2"
-            size="small"
-          />
+        <div class="pt-4"></div>
+
+        <div class="items">
+          <!-- TODO: Refactor this into a components/inventory/ItemSingle component -->
+          <div
+            v-for="(item, itemId) in INVENTORY_ITEMS"
+            :key="itemId"
+            class="item"
+            :class="{ selected: selectedItemId === itemId }"
+            @click="selectItem(itemId)"
+          >
+            <img :src="`/src/assets/items/${itemId}.png`" :alt="item.name" />
+
+            <ChipItem
+              :text="`${inventoryStore.itemsQuantities[itemId]}`"
+              class="absolute -bottom-2"
+              size="small"
+            />
+          </div>
         </div>
       </div>
 
@@ -50,16 +60,21 @@ const selectItem = (itemId: InventoryItemId) => {
 </template>
 
 <style scoped>
-.items {
+.inventory-main {
   @apply grow;
+}
+.tabs {
+  @apply flex gap-4;
+  @apply bg-slate-800 p-4 rounded-xl;
+}
+.items {
   @apply flex flex-wrap gap-4 items-start content-start;
   @apply bg-slate-800 p-4 rounded-xl;
 }
 .item {
   @apply relative w-20 h-20 p-2 rounded-xl;
-  @apply bg-slate-700 text-white;
+  @apply bg-slate-700 cursor-pointer transition-colors;
   @apply flex flex-col justify-center items-center;
-  @apply cursor-pointer transition-colors;
   &.selected {
     @apply bg-slate-600;
   }

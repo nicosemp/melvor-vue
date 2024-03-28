@@ -11,7 +11,15 @@ const woodcuttingStore = useWoodcuttingStore()
 </script>
 
 <template>
-  <TheHeader title="Woodcutting" class="bg-green-600 text-white" />
+  <TheHeader title="Woodcutting" class="bg-green-600">
+    <template v-slot:image>
+      <img
+        src="/src/assets/woodcutting/woodcutting-skill.svg"
+        alt="Woodcutting"
+        class="w-16 h-16 p-2 bg-green-700 rounded-xl"
+      />
+    </template>
+  </TheHeader>
 
   <TheMain>
     <SkillProgress
