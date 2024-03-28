@@ -14,5 +14,17 @@ export const useInventoryStore = defineStore('inventory', () => {
     itemsQuantities.value[itemId] = newTotal
   }
 
-  return { itemsQuantities, addItem }
+  const sellItems = (itemId: InventoryItemId | null, quantity: number): void => {
+    if (!itemId) {
+      console.error('Item id is required')
+      return
+    }
+    if (itemsQuantities.value[itemId] < quantity) {
+      console.error('Not enough items to sell')
+      return
+    }
+    itemsQuantities.value[itemId] -= quantity
+  }
+
+  return { itemsQuantities, addItem, sellItems }
 })

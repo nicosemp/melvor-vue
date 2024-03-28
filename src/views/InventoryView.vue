@@ -34,8 +34,13 @@ const selectItem = (itemId: InventoryItemId) => {
           :class="{ selected: selectedItemId === itemId }"
           @click="selectItem(itemId)"
         >
-          <p>{{ item.name.match(/[A-Z]/g)?.join('') }}</p>
-          <ChipItem :text="`${inventoryStore.itemsQuantities[itemId]}`" />
+          <img :src="`/src/assets/items/${itemId}.png`" :alt="item.name" />
+
+          <ChipItem
+            :text="`${inventoryStore.itemsQuantities[itemId]}`"
+            class="absolute -bottom-2"
+            size="small"
+          />
         </div>
       </div>
 
@@ -46,11 +51,13 @@ const selectItem = (itemId: InventoryItemId) => {
 
 <style scoped>
 .items {
-  @apply flex flex-wrap gap-2 items-start content-start;
+  @apply grow;
+  @apply flex flex-wrap gap-4 items-start content-start;
   @apply bg-slate-800 p-4 rounded-xl;
 }
 .item {
-  @apply w-16 h-16 bg-slate-700 text-white rounded-xl;
+  @apply relative w-20 h-20 p-2 rounded-xl;
+  @apply bg-slate-700 text-white;
   @apply flex flex-col justify-center items-center;
   @apply cursor-pointer transition-colors;
   &.selected {
