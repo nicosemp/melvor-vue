@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 
 import ItemDetails from '@/components/inventory/ItemDetails.vue'
+import ItemSingle from '@/components/inventory/ItemSingle.vue'
 import TheHeader from '@/components/layout/TheHeader.vue'
 import TheMain from '@/components/layout/TheMain.vue'
 import ChipItem from '@/components/ui/ChipItem.vue'
@@ -35,22 +36,14 @@ const selectItem = (itemId: InventoryItemId) => {
         <div class="pt-4"></div>
 
         <div class="items">
-          <!-- TODO: Refactor this into a components/inventory/ItemSingle component -->
-          <div
-            v-for="(item, itemId) in INVENTORY_ITEMS"
+          <ItemSingle
+            v-for="[itemId] in inventoryStore.ownedItems"
             :key="itemId"
-            class="item"
-            :class="{ selected: selectedItemId === itemId }"
-            @click="selectItem(itemId)"
-          >
-            <img :src="`/src/assets/items/${itemId}.png`" :alt="item.name" />
-
-            <ChipItem
-              :text="`${inventoryStore.itemsQuantities[itemId]}`"
-              class="absolute -bottom-2"
-              size="small"
-            />
-          </div>
+            :item-id="itemId"
+            :name="INVENTORY_ITEMS[itemId].name"
+            :selected="selectedItemId === itemId"
+            @select-item="selectItem(itemId)"
+          />
         </div>
       </div>
 

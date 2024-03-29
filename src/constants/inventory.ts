@@ -1,4 +1,4 @@
-import type { InventoryItems, InventoryItemId } from '@/types/inventory'
+import type { InventoryItems, ItemsQuantities } from '@/types/inventory'
 
 // TODO: Find a way to update the items constant in case of game updates
 export const INVENTORY_ITEMS: InventoryItems = {
@@ -40,19 +40,7 @@ export const INVENTORY_ITEMS: InventoryItems = {
   }
 }
 
-export const itemsQuantitiesDefault: { [id in InventoryItemId]: number } = {
-  wood1: 0,
-  wood2: 0,
-  wood3: 0,
-  wood4: 0,
-  wood5: 0,
-  wood6: 0,
-  wood7: 0,
-  wood8: 0,
-  wood9: 0
-}
-
-export const ITEMS_QUANTITIES_DEFAULT: Map<InventoryItemId, number> = new Map([
+export const ITEMS_QUANTITIES_DEFAULT: ItemsQuantities = new Map([
   ['wood1', 0],
   ['wood2', 0],
   ['wood3', 0],

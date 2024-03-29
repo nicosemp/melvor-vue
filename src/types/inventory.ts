@@ -18,4 +18,4 @@ export type InventoryItems = {
   }
 }
 
-export type ItemsQuantities = { [id in InventoryItemId]: number }
+export type ItemsQuantities = Map<InventoryItemId, number>

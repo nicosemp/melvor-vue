@@ -32,7 +32,7 @@ export const useSaveGame = () => {
         activeTreeId: woodcuttingStore.activeTreeId
       }
     }
-    const gameSaveString = JSON.stringify(gameSave)
+    const gameSaveString = JSON.stringify(gameSave, replacer)
     const gameSaveB64 = btoa(gameSaveString)
     localStorage.setItem('gamesave', gameSaveB64)
   }
@@ -42,10 +42,10 @@ export const useSaveGame = () => {
     if (!gameSaveB64) return
 
     const gameSaveString = atob(gameSaveB64)
-    const gameSave: gameSave = JSON.parse(gameSaveString)
+    const gameSave: gameSave = JSON.parse(gameSaveString, reviver)
 
     inventoryStore.coins = gameSave.coins
-    inventoryStore.itemsQuantities = { ...inventoryStore.itemsQuantities, ...gameSave.inventory }
+    inventoryStore.itemsQuantities = gameSave.inventory
     woodcuttingStore.exp = gameSave.woodcutting.exp
 
     if (gameSave.activeSkillId) {
@@ -62,4 +62,35 @@ export const useSaveGame = () => {
   }
 
   return { saveGame, loadGameSave }
+}
+
+// From: https://stackoverflow.com/questions/29085197/how-do-you-json-stringify-an-es6-map
+// Both JSON.stringify and JSON.parse support a second argument.
+// replacer and reviver respectively.
+// With replacer and reviver below it's possible to add support
+// for native Map object, including deeply nested values
+/**
+ * Used as a replacer for JSON.stringify to stringify Map objects
+ */
+function replacer(_key: string, value: any) {
+  if (value instanceof Map) {
+    return {
+      dataType: 'Map',
+      value: Array.from(value.entries()) // or with spread: value: [...value]
+    }
+  } else {
+    return value
+  }
+}
+
+/**
+ * Used as a reviver for JSON.parse to parse Map objects
+ */
+function reviver(_key: string, value: any) {
+  if (typeof value === 'object' && value !== null) {
+    if (value.dataType === 'Map') {
+      return new Map(value.value)
+    }
+  }
+  return value
 }
