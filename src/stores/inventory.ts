@@ -1,4 +1,4 @@
-import { computed, ref } from 'vue'
+import { computed, ref, type Ref } from 'vue'
 import { defineStore } from 'pinia'
 
 import { INVENTORY_ITEMS, ITEMS_QUANTITIES_DEFAULT } from '@/constants/inventory'
@@ -7,6 +7,7 @@ import type { InventoryItemId } from '@/types/inventory'
 export const useInventoryStore = defineStore('inventory', () => {
   const coins = ref(0)
   const itemsQuantities = ref(ITEMS_QUANTITIES_DEFAULT)
+  const sortedItemIds: Ref<InventoryItemId[]> = ref([])
 
   const ownedItems = computed(() => {
     return new Map([...itemsQuantities.value].filter(([_, quantity]) => quantity > 0))
@@ -17,9 +18,9 @@ export const useInventoryStore = defineStore('inventory', () => {
     return tot
   })
 
-  const addItem = (itemId: InventoryItemId, newQuantity: number = 1): void => {
+  const addItem = (itemId: InventoryItemId, addedQuantity: number = 1): void => {
     const itemQuantity = itemsQuantities.value.get(itemId) || 0
-    itemsQuantities.value.set(itemId, itemQuantity + newQuantity)
+    updateItemQuantity(itemId, itemQuantity, itemQuantity + addedQuantity)
   }
 
   const sellItems = (itemId: InventoryItemId | null, quantityToSell: number): void => {
@@ -34,10 +35,25 @@ export const useInventoryStore = defineStore('inventory', () => {
       return
     }
 
-    itemsQuantities.value.set(itemId, itemQuantity - quantityToSell)
+    updateItemQuantity(itemId, itemQuantity, itemQuantity - quantityToSell)
     const itemValue = INVENTORY_ITEMS.get(itemId)?.value || 0
     coins.value += itemValue * quantityToSell
   }
 
-  return { coins, itemsQuantities, ownedItems, inventoryValue, addItem, sellItems }
+  const updateItemQuantity = (
+    itemId: InventoryItemId,
+    oldQuantity: number,
+    newQuantity: number
+  ) => {
+    itemsQuantities.value.set(itemId, newQuantity)
+
+    // Update sortedItemIds
+    if (oldQuantity > 0 && newQuantity === 0) {
+      sortedItemIds.value.splice(sortedItemIds.value.indexOf(itemId), 1)
+    } else if (oldQuantity === 0 && newQuantity > 0) {
+      sortedItemIds.value.push(itemId)
+    }
+  }
+
+  return { coins, itemsQuantities, sortedItemIds, ownedItems, inventoryValue, addItem, sellItems }
 })

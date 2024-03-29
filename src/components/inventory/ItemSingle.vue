@@ -18,7 +18,7 @@ const inventoryStore = useInventoryStore()
 
 <template>
   <div class="item" :class="{ selected: props.selected }" @click="emit('selectItem', itemId)">
-    <img :src="`/src/assets/items/${itemId}.png`" :alt="props.name" />
+    <img :src="`/src/assets/items/${itemId}.png`" :alt="props.name" draggable="false" />
 
     <ChipItem
       :text="`${inventoryStore.itemsQuantities.get(itemId)}`"

@@ -35,14 +35,16 @@ const selectItem = (itemId: InventoryItemId) => {
 
         <div class="pt-4"></div>
 
-        <div class="items">
+        <div class="items" @dragover="console.log('dragover')">
           <ItemSingle
-            v-for="[itemId] in inventoryStore.ownedItems"
+            v-for="itemId in inventoryStore.sortedItemIds"
             :key="itemId"
             :item-id="itemId"
             :name="INVENTORY_ITEMS.get(itemId)?.name || ''"
             :selected="selectedItemId === itemId"
             @select-item="selectItem(itemId)"
+            draggable="true"
+            @dragstart="console.log('dragstart')"
           />
         </div>
       </div>
