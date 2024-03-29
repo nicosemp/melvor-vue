@@ -35,7 +35,8 @@ export const useInventoryStore = defineStore('inventory', () => {
     }
 
     itemsQuantities.value.set(itemId, itemQuantity - quantityToSell)
-    coins.value += INVENTORY_ITEMS[itemId].value * quantityToSell
+    const itemValue = INVENTORY_ITEMS.get(itemId)?.value || 0
+    coins.value += itemValue * quantityToSell
   }
 
   return { coins, itemsQuantities, ownedItems, inventoryValue, addItem, sellItems }

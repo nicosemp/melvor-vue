@@ -11,11 +11,12 @@ export type InventoryItemId =
   | 'wood8'
   | 'wood9'
 
-export type InventoryItems = {
-  [id in InventoryItemId]: {
+export type InventoryItems = Map<
+  InventoryItemId,
+  {
     readonly name: string
     readonly value: number
   }
-}
+>
 
 export type ItemsQuantities = Map<InventoryItemId, number>

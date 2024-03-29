@@ -14,7 +14,7 @@ const props = defineProps<{
 
 const inventoryStore = useInventoryStore()
 
-const item = computed(() => (props.itemId ? INVENTORY_ITEMS[props.itemId] : null))
+const item = computed(() => (props.itemId ? INVENTORY_ITEMS.get(props.itemId) : null))
 const itemQuantity = computed(() =>
   props.itemId ? inventoryStore.itemsQuantities.get(props.itemId) || 0 : 0
 )

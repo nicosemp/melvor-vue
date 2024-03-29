@@ -40,7 +40,7 @@ const selectItem = (itemId: InventoryItemId) => {
             v-for="[itemId] in inventoryStore.ownedItems"
             :key="itemId"
             :item-id="itemId"
-            :name="INVENTORY_ITEMS[itemId].name"
+            :name="INVENTORY_ITEMS.get(itemId)?.name || ''"
             :selected="selectedItemId === itemId"
             @select-item="selectItem(itemId)"
           />
