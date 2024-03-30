@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, type Ref } from 'vue'
 
 import ItemDetails from '@/components/inventory/ItemDetails.vue'
 import ItemSingle from '@/components/inventory/ItemSingle.vue'
@@ -20,6 +20,27 @@ const selectItem = (itemId: InventoryItemId) => {
   }
   selectedItemId.value = itemId
 }
+
+//#region Reorder Drag and Drop
+const itemRefs: Ref<{ itemId: InventoryItemId; itemRef: HTMLDivElement }[]> = ref([])
+const draggedItemId = ref<InventoryItemId | null>(null)
+const onItemsDragOver = (event: DragEvent) => {
+  event.preventDefault() // To show a drop cursor instead of a stop sign cursor
+
+  const overlappingItem = itemRefs.value.find(({ itemRef }) => {
+    const rect = itemRef.getBoundingClientRect()
+    return (
+      event.x > rect.left && event.x < rect.right && event.y > rect.top && event.y < rect.bottom
+    )
+  })
+  if (overlappingItem && draggedItemId.value) {
+    const overlappingItemIndex = inventoryStore.sortedItemIds.indexOf(overlappingItem.itemId)
+    const draggedItemIndex = inventoryStore.sortedItemIds.indexOf(draggedItemId.value)
+    const splicedDraggedItem = inventoryStore.sortedItemIds.splice(draggedItemIndex, 1)[0]
+    inventoryStore.sortedItemIds.splice(overlappingItemIndex, 0, splicedDraggedItem)
+  }
+}
+//#endregion
 </script>
 
 <template>
@@ -35,16 +56,18 @@ const selectItem = (itemId: InventoryItemId) => {
 
         <div class="pt-4"></div>
 
-        <div class="items" @dragover="console.log('dragover')">
+        <!-- TODO: add inventory tabs with Drag and Drop -->
+        <div class="items" @dragover="onItemsDragOver">
           <ItemSingle
             v-for="itemId in inventoryStore.sortedItemIds"
             :key="itemId"
+            ref="itemRefs"
             :item-id="itemId"
             :name="INVENTORY_ITEMS.get(itemId)?.name || ''"
             :selected="selectedItemId === itemId"
             @select-item="selectItem(itemId)"
             draggable="true"
-            @dragstart="console.log('dragstart')"
+            @dragstart="draggedItemId = itemId"
           />
         </div>
       </div>

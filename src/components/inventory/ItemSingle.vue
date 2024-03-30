@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ref, type Ref } from 'vue'
+
 import ChipItem from '@/components/ui/ChipItem.vue'
 import { useInventoryStore } from '@/stores/inventory'
 import type { InventoryItemId } from '@/types/inventory'
@@ -14,10 +16,25 @@ const emit = defineEmits<{
 }>()
 
 const inventoryStore = useInventoryStore()
+
+//#region Template Ref used for Drag and Drop
+const itemRef: Ref<HTMLDivElement | null> = ref(null)
+// This exposes the itemRef to the parent component,
+// as by default <script setup> components are private
+defineExpose({
+  itemId: props.itemId,
+  itemRef
+})
+//#endregion
 </script>
 
 <template>
-  <div class="item" :class="{ selected: props.selected }" @click="emit('selectItem', itemId)">
+  <div
+    ref="itemRef"
+    class="item"
+    :class="{ selected: props.selected }"
+    @click="emit('selectItem', itemId)"
+  >
     <img :src="`/src/assets/items/${itemId}.png`" :alt="props.name" draggable="false" />
 
     <ChipItem
