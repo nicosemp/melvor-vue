@@ -44,3 +44,14 @@ defineExpose({
     />
   </div>
 </template>
+
+<style scoped>
+.item {
+  @apply relative w-20 h-20 p-2 rounded-xl;
+  @apply bg-slate-700 cursor-pointer transition-colors;
+  @apply flex flex-col justify-center items-center;
+  &.selected {
+    @apply bg-slate-600;
+  }
+}
+</style>

@@ -47,7 +47,7 @@ export const useInventoryStore = defineStore('inventory', () => {
   ) => {
     itemsQuantities.value.set(itemId, newQuantity)
 
-    // Update sortedItemIds
+    // Update sortedItemIds to show/hide the items in the inventory
     if (oldQuantity > 0 && newQuantity === 0) {
       sortedItemIds.value.splice(sortedItemIds.value.indexOf(itemId), 1)
     } else if (oldQuantity === 0 && newQuantity > 0) {

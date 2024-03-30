@@ -2,6 +2,7 @@
 import { ref, type Ref } from 'vue'
 
 import ItemDetails from '@/components/inventory/ItemDetails.vue'
+import InventoryTabs from '@/components/inventory/InventoryTabs.vue'
 import ItemSingle from '@/components/inventory/ItemSingle.vue'
 import TheHeader from '@/components/layout/TheHeader.vue'
 import TheMain from '@/components/layout/TheMain.vue'
@@ -49,26 +50,32 @@ const onItemsDragOver = (event: DragEvent) => {
   <TheMain>
     <div class="flex gap-4 w-full items-start">
       <div class="inventory-main">
-        <div class="tabs">
+        <div class="info">
           <span>items</span>
           <ChipItem :text="inventoryStore.inventoryValue.toString()" class="bg-yellow-600" />
         </div>
 
         <div class="pt-4"></div>
 
-        <!-- TODO: add inventory tabs with Drag and Drop -->
-        <div class="items" @dragover="onItemsDragOver">
-          <ItemSingle
-            v-for="itemId in inventoryStore.sortedItemIds"
-            :key="itemId"
-            ref="itemRefs"
-            :item-id="itemId"
-            :name="INVENTORY_ITEMS.get(itemId)?.name || ''"
-            :selected="selectedItemId === itemId"
-            @select-item="selectItem(itemId)"
-            draggable="true"
-            @dragstart="draggedItemId = itemId"
-          />
+        <div class="inventory">
+          <!-- TODO: add inventory tabs with Drag and Drop -->
+          <!-- <InventoryTabs /> -->
+
+          <div class="items" @dragover="onItemsDragOver">
+            <ItemSingle
+              v-for="itemId in inventoryStore.sortedItemIds"
+              :key="itemId"
+              ref="itemRefs"
+              :item-id="itemId"
+              :name="INVENTORY_ITEMS.get(itemId)?.name || ''"
+              :selected="selectedItemId === itemId"
+              @select-item="selectItem(itemId)"
+              draggable="true"
+              @dragstart="draggedItemId = itemId"
+              @dragend="draggedItemId = null"
+              :class="{ 'opacity-50': draggedItemId === itemId }"
+            />
+          </div>
         </div>
       </div>
 
@@ -81,20 +88,16 @@ const onItemsDragOver = (event: DragEvent) => {
 .inventory-main {
   @apply grow;
 }
-.tabs {
+.info {
   @apply flex gap-4;
   @apply bg-slate-800 p-4 rounded-xl;
 }
-.items {
-  @apply flex flex-wrap gap-4 items-start content-start;
+
+.inventory {
   @apply bg-slate-800 p-4 rounded-xl;
-}
-.item {
-  @apply relative w-20 h-20 p-2 rounded-xl;
-  @apply bg-slate-700 cursor-pointer transition-colors;
-  @apply flex flex-col justify-center items-center;
-  &.selected {
-    @apply bg-slate-600;
+  @apply flex flex-col gap-4;
+  .items {
+    @apply flex flex-wrap gap-4 items-start content-start;
   }
 }
 </style>
