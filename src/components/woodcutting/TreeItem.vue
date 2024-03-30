@@ -23,7 +23,7 @@ const animationSwitcher = computed(() => woodcuttingStore.actionsCount % 2 === 0
 <template>
   <div
     class="tree"
-    :class="{ disabled: !isUnlocked }"
+    :class="{ disabled: !isUnlocked, active: isActive }"
     @click="isUnlocked && woodcuttingStore.toggleActiveAction(props.treeId)"
   >
     <h4 class="mb-2 text-center">{{ isUnlocked ? tree.name : 'Locked' }}</h4>
@@ -59,6 +59,9 @@ const animationSwitcher = computed(() => woodcuttingStore.actionsCount % 2 === 0
   @apply bg-slate-700 transition-all;
   &:not(.disabled) {
     @apply hover:bg-slate-800 hover:-translate-y-1 active:translate-y-0 cursor-pointer;
+  }
+  &.active {
+    @apply bg-slate-800;
   }
   img {
     @apply w-20 pb-2 mx-auto;

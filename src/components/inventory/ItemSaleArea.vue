@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
+import ChipItem from '@/components/ui/ChipItem.vue'
 import { useInventoryStore } from '@/stores/inventory'
+import { INVENTORY_ITEMS } from '@/constants/inventory'
 import type { InventoryItemId } from '@/types/inventory'
 
 const props = defineProps<{
@@ -9,14 +11,29 @@ const props = defineProps<{
   quantity: number
 }>()
 
+const emit = defineEmits<{
+  deselectItem: []
+}>()
+
 const inventoryStore = useInventoryStore()
 
 const selectedQuantity = ref(0)
+const saleRevenue = computed(() => {
+  const item = INVENTORY_ITEMS.get(props.itemId)
+  if (!item) return 0
+  return item.value * selectedQuantity.value
+})
+
+const handleOnSellClick = () => {
+  inventoryStore.sellItems(props.itemId, selectedQuantity.value)
+  selectedQuantity.value = 0
+  emit('deselectItem')
+}
 </script>
 
 <template>
   <div>
-    <h5>Sell for coins</h5>
+    <h5>Sell for <ChipItem :text="saleRevenue.toString()" class="bg-yellow-600" /> coins</h5>
 
     <div class="pt-2"></div>
 
@@ -29,11 +46,11 @@ const selectedQuantity = ref(0)
         type="number"
         name="selected-quantity"
         v-model="selectedQuantity"
-        :max="quantity"
-        @input="selectedQuantity = Math.min(selectedQuantity, props.quantity)"
+        min="0"
+        :max="props.quantity"
       />
       <div>
-        <button class="btn btn-sky" @click="selectedQuantity = props.quantity - 1">
+        <button class="btn btn-sky" @click="selectedQuantity = Math.max(props.quantity - 1, 0)">
           All but 1
         </button>
         <button class="btn btn-sky ml-4" @click="selectedQuantity = props.quantity">All</button>
@@ -42,7 +59,7 @@ const selectedQuantity = ref(0)
 
     <div class="pt-4"></div>
 
-    <button class="btn btn-red" @click="inventoryStore.sellItems(props.itemId, selectedQuantity)">
+    <button class="btn btn-red" :disabled="saleRevenue === 0" @click="handleOnSellClick">
       Sell
     </button>
   </div>

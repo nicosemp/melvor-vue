@@ -33,12 +33,18 @@ const handleOnDrop = (event: DragEvent, tab: string) => {
 
 <style scoped>
 .tabs {
-  @apply flex gap-4;
+  @apply flex;
   @apply bg-slate-800 rounded-t-xl;
 }
 .tab {
   @apply h-16 w-16 p-2 rounded-lg cursor-pointer;
   @apply bg-slate-700 transition-colors;
+  &:not(:last-child) {
+    @apply rounded-r-none border-r-2 border-slate-800;
+  }
+  &:not(:first-child) {
+    @apply rounded-l-none;
+  }
   &.selected {
     @apply bg-slate-600;
   }

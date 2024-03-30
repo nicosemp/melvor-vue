@@ -3,7 +3,7 @@ import { ref, type Ref } from 'vue'
 
 import ItemDetails from '@/components/inventory/ItemDetails.vue'
 import InventoryTabs from '@/components/inventory/InventoryTabs.vue'
-import ItemSingle from '@/components/inventory/ItemSingle.vue'
+import ItemSquare from '@/components/inventory/ItemSquare.vue'
 import TheHeader from '@/components/layout/TheHeader.vue'
 import TheMain from '@/components/layout/TheMain.vue'
 import ChipItem from '@/components/ui/ChipItem.vue'
@@ -59,10 +59,10 @@ const onItemsDragOver = (event: DragEvent) => {
 
         <div class="inventory">
           <!-- TODO: add inventory tabs with Drag and Drop -->
-          <!-- <InventoryTabs /> -->
+          <InventoryTabs />
 
           <div class="items" @dragover="onItemsDragOver">
-            <ItemSingle
+            <ItemSquare
               v-for="itemId in inventoryStore.sortedItemIds"
               :key="itemId"
               ref="itemRefs"
@@ -79,7 +79,7 @@ const onItemsDragOver = (event: DragEvent) => {
         </div>
       </div>
 
-      <ItemDetails :item-id="selectedItemId" />
+      <ItemDetails :item-id="selectedItemId" @deselect-item="selectedItemId = null" />
     </div>
   </TheMain>
 </template>

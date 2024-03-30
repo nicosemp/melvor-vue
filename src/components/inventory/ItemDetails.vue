@@ -12,6 +12,10 @@ const props = defineProps<{
   itemId: InventoryItemId | null
 }>()
 
+const emit = defineEmits<{
+  deselectItem: []
+}>()
+
 const inventoryStore = useInventoryStore()
 
 const item = computed(() => (props.itemId ? INVENTORY_ITEMS.get(props.itemId) : null))
@@ -33,13 +37,18 @@ const itemQuantity = computed(() =>
         </div>
 
         <div class="name">
-          <h3>{{ item.name }}</h3>
+          <h4>{{ item.name }}</h4>
         </div>
       </div>
 
       <div class="pt-4"></div>
 
-      <ItemSaleArea :item-id="props.itemId" :quantity="itemQuantity" class="sale" />
+      <ItemSaleArea
+        :item-id="props.itemId"
+        :quantity="itemQuantity"
+        class="sale"
+        @deselect-item="emit('deselectItem')"
+      />
     </div>
 
     <p v-else class="text-center">Select an item to see its details</p>
@@ -58,8 +67,8 @@ const itemQuantity = computed(() =>
   @apply bg-slate-700 rounded-xl;
 }
 .image {
-  @apply w-24 h-24 p-2;
-  @apply flex justify-center items-end relative;
+  @apply w-24 h-24;
+  @apply flex justify-center items-center relative;
   .lock {
     @apply absolute top-0 left-0;
     @apply w-6 h-6 p-1 rounded;

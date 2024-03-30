@@ -54,5 +54,8 @@
         @apply bg-red-900;
       }
     }
+    &:disabled {
+      @apply !bg-slate-400 !text-slate-900;
+    }
   }
 }
