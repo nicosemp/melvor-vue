@@ -4,7 +4,7 @@ import type { SkillId } from '@/types/game'
 export const useSkillAction = (skillId: SkillId) => {
   const gameStore = useGameStore()
 
-  let tickInterval: NodeJS.Timeout
+  let tickInterval: ReturnType<typeof setInterval>
 
   /**
    * This function activates a skill action.
