@@ -26,8 +26,11 @@ const saleRevenue = computed(() => {
 
 const handleOnSellClick = () => {
   inventoryStore.sellItems(props.itemId, selectedQuantity.value)
+
+  // Deselect item if all copies of it were sold
+  if (props.quantity === selectedQuantity.value) emit('deselectItem')
+
   selectedQuantity.value = 0
-  emit('deselectItem')
 }
 </script>
 
@@ -37,7 +40,7 @@ const handleOnSellClick = () => {
 
     <div class="pt-2"></div>
 
-    <input type="range" min="0" :max="props.quantity" v-model="selectedQuantity" />
+    <input type="range" min="0" :max="props.quantity" v-model.number="selectedQuantity" />
 
     <div class="pt-4"></div>
 
@@ -45,7 +48,7 @@ const handleOnSellClick = () => {
       <input
         type="number"
         name="selected-quantity"
-        v-model="selectedQuantity"
+        v-model.number="selectedQuantity"
         min="0"
         :max="props.quantity"
       />
