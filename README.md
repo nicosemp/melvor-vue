@@ -39,3 +39,9 @@ npm run test:unit
 ```sh
 npm run lint
 ```
+
+### Deploy on GH Pages
+
+```sh
+git subtree push --prefix dist origin gh-pages
+```
