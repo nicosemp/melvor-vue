@@ -29,7 +29,7 @@ const animationSwitcher = computed(() => woodcuttingStore.actionsCount % 2 === 0
     <h4 class="mb-2 text-center">{{ isUnlocked ? tree.name : 'Locked' }}</h4>
 
     <img
-      :src="`/src/assets/woodcutting/${isUnlocked ? tree.imageName : 'woodcutting-skill'}.svg`"
+      :src="`./woodcutting/${isUnlocked ? tree.imageName : 'woodcutting-skill'}.svg`"
       :alt="tree.name"
     />
 

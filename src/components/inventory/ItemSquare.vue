@@ -35,7 +35,7 @@ defineExpose({
     :class="{ selected: props.selected }"
     @click="emit('selectItem', itemId)"
   >
-    <img :src="`/src/assets/items/${itemId}.png`" :alt="props.name" draggable="false" />
+    <img :src="`./items/${itemId}.png`" :alt="props.name" draggable="false" />
 
     <ChipItem
       :text="`${inventoryStore.itemsQuantities.get(itemId)}`"

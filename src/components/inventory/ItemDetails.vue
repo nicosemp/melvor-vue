@@ -31,7 +31,7 @@ const itemQuantity = computed(() =>
         <div class="image">
           <button class="lock">L</button>
 
-          <img :src="`/src/assets/items/${itemId}.png`" :alt="item.name" />
+          <img :src="`./items/${itemId}.png`" :alt="item.name" />
 
           <ChipItem :text="`${itemQuantity}`" class="absolute -bottom-2" />
         </div>
