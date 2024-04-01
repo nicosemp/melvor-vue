@@ -4,6 +4,7 @@ import { computed } from 'vue'
 import { INVENTORY_ITEMS } from '@/constants/inventory'
 import { useInventoryStore } from '@/stores/inventory'
 import type { InventoryItemId } from '@/types/inventory'
+import { getAssetUrl } from '@/utils/assets'
 
 import ChipItem from '../ui/ChipItem.vue'
 import ItemSaleArea from './ItemSaleArea.vue'
@@ -31,7 +32,7 @@ const itemQuantity = computed(() =>
         <div class="image">
           <button class="lock">L</button>
 
-          <img :src="`./items/${itemId}.png`" :alt="item.name" />
+          <img :src="getAssetUrl(`/items/${itemId}.png`)" :alt="item.name" />
 
           <ChipItem :text="`${itemQuantity}`" class="absolute -bottom-2" />
         </div>

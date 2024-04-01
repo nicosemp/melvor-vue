@@ -4,6 +4,7 @@ import { ref, type Ref } from 'vue'
 import ChipItem from '@/components/ui/ChipItem.vue'
 import { useInventoryStore } from '@/stores/inventory'
 import type { InventoryItemId } from '@/types/inventory'
+import { getAssetUrl } from '@/utils/assets'
 
 const props = defineProps<{
   itemId: InventoryItemId
@@ -35,7 +36,7 @@ defineExpose({
     :class="{ selected: props.selected }"
     @click="emit('selectItem', itemId)"
   >
-    <img :src="`./items/${itemId}.png`" :alt="props.name" draggable="false" />
+    <img :src="getAssetUrl(`/items/${itemId}.png`)" :alt="props.name" draggable="false" />
 
     <ChipItem
       :text="`${inventoryStore.itemsQuantities.get(itemId)}`"

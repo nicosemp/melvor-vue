@@ -6,6 +6,7 @@ import TheMain from '@/components/layout/TheMain.vue'
 import SkillProgress from '@/components/SkillProgress.vue'
 import TreeItem from '@/components/woodcutting/TreeItem.vue'
 import { TREES } from '@/constants/woodcutting'
+import { getAssetUrl } from '@/utils/assets'
 
 const woodcuttingStore = useWoodcuttingStore()
 </script>
@@ -14,7 +15,7 @@ const woodcuttingStore = useWoodcuttingStore()
   <TheHeader title="Woodcutting" class="bg-green-600">
     <template v-slot:image>
       <img
-        :src="`./woodcutting/woodcutting-skill.svg`"
+        :src="getAssetUrl('/woodcutting/woodcutting-skill.svg')"
         alt="Woodcutting"
         class="w-16 h-16 p-2 bg-green-700 rounded-xl"
       />

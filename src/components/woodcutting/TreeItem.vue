@@ -6,6 +6,7 @@ import ChipItem from '@/components/ui/ChipItem.vue'
 import { TREES } from '@/constants/woodcutting'
 import { useWoodcuttingStore } from '@/stores/woodcutting'
 import type { TreeId } from '@/types/woodcutting'
+import { getAssetUrl } from '@/utils/assets'
 
 const props = defineProps<{
   treeId: TreeId
@@ -29,7 +30,7 @@ const animationSwitcher = computed(() => woodcuttingStore.actionsCount % 2 === 0
     <h4 class="mb-2 text-center">{{ isUnlocked ? tree.name : 'Locked' }}</h4>
 
     <img
-      :src="`./woodcutting/${isUnlocked ? tree.imageName : 'woodcutting-skill'}.svg`"
+      :src="getAssetUrl(`/woodcutting/${isUnlocked ? tree.imageName : 'woodcutting-skill'}.svg`)"
       :alt="tree.name"
     />
 
