@@ -2,14 +2,14 @@ import { useGameStore } from '@/stores/game'
 import { useInventoryStore } from '@/stores/inventory'
 import { useWoodcuttingStore } from '@/stores/woodcutting'
 import type { ActiveSkill } from '@/types/game'
-import type { InventoryItemId, ItemsQuantities } from '@/types/inventory'
+import type { ItemsQuantities, Tabs } from '@/types/inventory'
 import type { ActiveTreeId } from '@/types/woodcutting'
 
 type gameSave = {
   time: number
   coins: number
   inventory: ItemsQuantities
-  sortedItemIds: InventoryItemId[]
+  tabs: Tabs
   activeSkillId: ActiveSkill
   woodcutting: {
     exp: number
@@ -27,7 +27,7 @@ export const useSaveGame = () => {
       time: Date.now(),
       coins: inventoryStore.coins,
       inventory: inventoryStore.itemsQuantities,
-      sortedItemIds: inventoryStore.sortedItemIds,
+      tabs: inventoryStore.tabs,
       activeSkillId: gameStore.activeSkillId,
       woodcutting: {
         exp: woodcuttingStore.exp,
@@ -48,7 +48,7 @@ export const useSaveGame = () => {
 
     inventoryStore.coins = gameSave.coins
     inventoryStore.itemsQuantities = gameSave.inventory
-    inventoryStore.sortedItemIds = gameSave.sortedItemIds
+    inventoryStore.tabs = gameSave.tabs
 
     woodcuttingStore.exp = gameSave.woodcutting.exp
 

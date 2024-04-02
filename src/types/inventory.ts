@@ -20,3 +20,5 @@ export type InventoryItems = Map<
 >
 
 export type ItemsQuantities = Map<InventoryItemId, number>
+
+export type Tabs = InventoryItemId[][]

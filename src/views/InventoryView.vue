@@ -35,10 +35,21 @@ const onItemsDragOver = (event: DragEvent) => {
     )
   })
   if (overlappingItem && draggedItemId.value) {
-    const overlappingItemIndex = inventoryStore.sortedItemIds.indexOf(overlappingItem.itemId)
-    const draggedItemIndex = inventoryStore.sortedItemIds.indexOf(draggedItemId.value)
-    const splicedDraggedItem = inventoryStore.sortedItemIds.splice(draggedItemIndex, 1)[0]
-    inventoryStore.sortedItemIds.splice(overlappingItemIndex, 0, splicedDraggedItem)
+    const overlappingItemIndex = inventoryStore.tabs[inventoryStore.selectedTab].indexOf(
+      overlappingItem.itemId
+    )
+    const draggedItemIndex = inventoryStore.tabs[inventoryStore.selectedTab].indexOf(
+      draggedItemId.value
+    )
+    const splicedDraggedItem = inventoryStore.tabs[inventoryStore.selectedTab].splice(
+      draggedItemIndex,
+      1
+    )[0]
+    inventoryStore.tabs[inventoryStore.selectedTab].splice(
+      overlappingItemIndex,
+      0,
+      splicedDraggedItem
+    )
   }
 }
 //#endregion
@@ -51,19 +62,18 @@ const onItemsDragOver = (event: DragEvent) => {
     <div class="flex gap-4 w-full items-start">
       <div class="inventory-main">
         <div class="info">
-          <span>items</span>
+          <span>Inventory value:</span>
           <ChipItem :text="inventoryStore.inventoryValue.toString()" class="bg-yellow-600" />
         </div>
 
         <div class="pt-4"></div>
 
         <div class="inventory">
-          <!-- TODO: add inventory tabs with Drag and Drop -->
-          <InventoryTabs />
+          <InventoryTabs :dragged-item-id="draggedItemId" @deselect-item="selectedItemId = null" />
 
           <div class="items" @dragover="onItemsDragOver">
             <ItemSquare
-              v-for="itemId in inventoryStore.sortedItemIds"
+              v-for="itemId in inventoryStore.tabs[inventoryStore.selectedTab]"
               :key="itemId"
               ref="itemRefs"
               :item-id="itemId"
