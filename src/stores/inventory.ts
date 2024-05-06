@@ -13,7 +13,10 @@ export const useInventoryStore = defineStore('inventory', () => {
   })
   const inventoryValue = computed(() => {
     let tot = 0
-    itemsQuantities.value.forEach((quantity) => (tot += quantity))
+    itemsQuantities.value.forEach((itemQuantity, id) => {
+      const itemValue = INVENTORY_ITEMS.get(id)?.value || 0
+      tot += itemValue * itemQuantity
+    })
     return tot
   })
 
