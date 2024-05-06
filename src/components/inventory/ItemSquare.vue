@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ref, type Ref } from 'vue'
+import { computed, ref, type Ref } from 'vue'
 
 import ChipItem from '@/components/ui/ChipItem.vue'
 import { useInventoryStore } from '@/stores/inventory'
 import type { InventoryItemId } from '@/types/inventory'
 import { getAssetUrl } from '@/utils/assets'
+import { compactNumberFormatter } from '@/utils/format'
 
 const props = defineProps<{
   itemId: InventoryItemId
@@ -17,6 +18,14 @@ const emit = defineEmits<{
 }>()
 
 const inventoryStore = useInventoryStore()
+const itemQuantity = computed(() => {
+  const itemQuantity = inventoryStore.itemsQuantities.get(props.itemId)
+  return {
+    normal: itemQuantity?.toString() || '',
+    compact: compactNumberFormatter.format(itemQuantity || 0)
+  }
+})
+const mouseOver = ref(false)
 
 //#region Template Ref used for Drag and Drop
 const itemRef: Ref<HTMLDivElement | null> = ref(null)
@@ -35,11 +44,13 @@ defineExpose({
     class="item"
     :class="{ selected: props.selected }"
     @click="emit('selectItem', itemId)"
+    @mouseenter="mouseOver = true"
+    @mouseleave="mouseOver = false"
   >
     <img :src="getAssetUrl(`/items/${itemId}.png`)" :alt="props.name" draggable="false" />
 
     <ChipItem
-      :text="`${inventoryStore.itemsQuantities.get(itemId)}`"
+      :text="mouseOver ? itemQuantity.normal : itemQuantity.compact"
       class="absolute -bottom-2"
       size="small"
     />

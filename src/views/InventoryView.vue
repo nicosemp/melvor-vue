@@ -10,6 +10,7 @@ import ChipItem from '@/components/ui/ChipItem.vue'
 import { INVENTORY_ITEMS } from '@/constants/inventory'
 import { useInventoryStore } from '@/stores/inventory'
 import type { InventoryItemId } from '@/types/inventory'
+import { compactNumberFormatter } from '@/utils/format'
 
 const inventoryStore = useInventoryStore()
 
@@ -63,7 +64,10 @@ const onItemsDragOver = (event: DragEvent) => {
       <div class="inventory-main">
         <div class="info">
           <span>Inventory value:</span>
-          <ChipItem :text="inventoryStore.inventoryValue.toString()" class="bg-yellow-600" />
+          <ChipItem
+            :text="compactNumberFormatter.format(inventoryStore.inventoryValue)"
+            class="bg-yellow-600"
+          />
         </div>
 
         <div class="pt-4"></div>

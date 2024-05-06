@@ -2,6 +2,7 @@
 import { useInventoryStore } from '@/stores/inventory'
 import { useWoodcuttingStore } from '@/stores/woodcutting'
 import { SKILLS_MAX_LEVEL } from '@/constants/game'
+import { compactNumberFormatter } from '@/utils/format'
 
 import ChipItem from '../ui/ChipItem.vue'
 
@@ -20,7 +21,10 @@ const woodcuttingStore = useWoodcuttingStore()
     <nav>
       <RouterLink to="/shop">
         <span>Shop</span>
-        <ChipItem :text="inventoryStore.coins.toString()" class="bg-yellow-600" />
+        <ChipItem
+          :text="compactNumberFormatter.format(inventoryStore.coins)"
+          class="bg-yellow-600"
+        />
       </RouterLink>
       <RouterLink to="/inventory">Inventory</RouterLink>
 
