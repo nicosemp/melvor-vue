@@ -17,14 +17,18 @@ export type Tree = {
   readonly interval: number
   readonly producedItemId: InventoryItemId
   readonly exp: number
+
   // TODO: This should be shared by all skills
   readonly requirements: {
     readonly level: number
   }
 }
 
-export type Trees = {
-  [id in TreeId]: Tree
-}
+export type Trees = Map<TreeId, Tree>
 
 export type ActiveTreeId = TreeId | null
+
+export type StoreTree = {
+  masteryXP: number
+}
+export type StoreTrees = Map<TreeId, StoreTree>

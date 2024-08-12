@@ -18,10 +18,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex h-screen">
+  <div class="flex min-h-screen">
     <TheSidebar class="shrink-0" />
 
-    <div class="grow">
+    <div class="grow flex flex-col">
       <RouterView />
     </div>
   </div>

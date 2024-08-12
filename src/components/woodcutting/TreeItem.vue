@@ -5,18 +5,17 @@ import ProgressBar from '@/components/ProgressBar.vue'
 import ChipItem from '@/components/ui/ChipItem.vue'
 import { TREES } from '@/constants/woodcutting'
 import { useWoodcuttingStore } from '@/stores/woodcutting'
-import type { TreeId } from '@/types/woodcutting'
+import type { Tree, TreeId } from '@/types/woodcutting'
 import { getAssetUrl } from '@/utils/assets'
 
 const props = defineProps<{
   treeId: TreeId
+  tree: Tree
 }>()
-
-const tree = TREES[props.treeId]
 
 const woodcuttingStore = useWoodcuttingStore()
 
-const isUnlocked = computed(() => woodcuttingStore.level >= tree.requirements.level)
+const isUnlocked = computed(() => woodcuttingStore.level >= props.tree.requirements.level)
 const isActive = computed(() => woodcuttingStore.activeTreeId === props.treeId)
 const animationSwitcher = computed(() => woodcuttingStore.actionsCount % 2 === 0)
 </script>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = defineProps<{
+export interface Props {
   /**
    * The width of the progress bar in percentage.
    * This is overriden by the `animate` prop, if true.
@@ -9,10 +9,11 @@ const props = defineProps<{
   width?: number
 
   /**
-   * Whether the progress bar should be thin or not.
-   * @default false
+   * Whether the progress bar should be small or not.
+   * @default 'medium'
+   * @example 'small'
    */
-  thin?: boolean
+  size?: 'small' | 'medium' | 'large'
 
   /**
    * Whether the progress bar should animate or not.
@@ -36,11 +37,17 @@ const props = defineProps<{
    * Whether the progress bar should be disabled or not.
    */
   isDisabled?: boolean
-}>()
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  width: 0,
+  size: 'medium',
+  duration: 0
+})
 </script>
 
 <template>
-  <div class="progress-bar" :class="{ disabled: props.isDisabled, thin: props.thin }">
+  <div class="progress-bar" :class="[{ disabled: props.isDisabled }, props.size]">
     <div
       class="progress"
       :class="[
@@ -58,8 +65,11 @@ const props = defineProps<{
   &.disabled {
     @apply bg-gray-300;
   }
-  &.thin {
+  &.small {
     @apply h-3;
+  }
+  &.large {
+    @apply h-10;
   }
   .progress {
     @apply h-full bg-green-600;

@@ -21,10 +21,7 @@ const woodcuttingStore = useWoodcuttingStore()
     <nav>
       <RouterLink to="/shop">
         <span>Shop</span>
-        <ChipItem
-          :text="compactNumberFormatter.format(inventoryStore.coins)"
-          class="bg-yellow-600"
-        />
+        <ChipItem :text="compactNumberFormatter(inventoryStore.coins)" class="bg-yellow-600" />
       </RouterLink>
       <RouterLink to="/inventory">Inventory</RouterLink>
 
@@ -41,7 +38,7 @@ const woodcuttingStore = useWoodcuttingStore()
 
 <style scoped>
 .sidebar {
-  @apply w-52 h-full bg-slate-700;
+  @apply w-52 bg-slate-700;
 }
 .logo {
   @apply p-4 text-center;

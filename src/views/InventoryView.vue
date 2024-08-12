@@ -65,7 +65,7 @@ const onItemsDragOver = (event: DragEvent) => {
         <div class="info">
           <span>Inventory value:</span>
           <ChipItem
-            :text="compactNumberFormatter.format(inventoryStore.inventoryValue)"
+            :text="compactNumberFormatter(inventoryStore.inventoryValue)"
             class="bg-yellow-600"
           />
         </div>

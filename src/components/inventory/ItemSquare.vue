@@ -22,7 +22,7 @@ const itemQuantity = computed(() => {
   const itemQuantity = inventoryStore.itemsQuantities.get(props.itemId)
   return {
     normal: itemQuantity?.toString() || '',
-    compact: compactNumberFormatter.format(itemQuantity || 0)
+    compact: compactNumberFormatter(itemQuantity || 0)
   }
 })
 const mouseOver = ref(false)
