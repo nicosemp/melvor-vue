@@ -2,38 +2,24 @@ import { ref, type Ref } from 'vue'
 import { defineStore } from 'pinia'
 
 import { useSkillAction } from '@/composables/useSkillAction'
-import { useSkillExperience } from '@/composables/useSkillExperience'
-import { useSkillItemMastery } from '@/composables/useSkillItemMastery'
-import { useSkillMasteryPool } from '@/composables/useSkillMasteryPool'
+import { useExperience } from '@/composables/useExperience'
+import { useSkillItemsMastery } from '@/composables/useSkillItemsMastery'
 import { TREES, MAX_POOL_EXP } from '@/constants/woodcutting'
-import type { ActiveTreeId, StoreTrees, TreeId } from '@/types/woodcutting'
+import type { ActiveTreeId, TreeId } from '@/types/woodcutting'
 
 import { useInventoryStore } from './inventory'
 
 const SKILL_NAME = 'woodcutting'
 
-const initializeStoreTrees = () => {
-  const storeTrees: StoreTrees = new Map()
-  TREES.forEach((_tree, treeId) => {
-    storeTrees.set(treeId, {
-      masteryXP: 0
-    })
-  })
-  return storeTrees
-}
-
 export const useWoodcuttingStore = defineStore(SKILL_NAME, () => {
   const inventoryStore = useInventoryStore()
 
   const { activateAction, deactivateAction } = useSkillAction(SKILL_NAME)
-  const { exp, level, expOverCurrentLevel, expToNextLevel, gainExp } = useSkillExperience()
+  const { exp, level, expOverCurrentLevel, expToNextLevel } = useExperience()
 
-  // TODO: Replace this with the actual logic
-  const {} = useSkillItemMastery()
+  const { trees, gainMasteryExp } = useSkillItemsMastery()
 
-  const trees: Ref<() => StoreTrees> = ref(initializeStoreTrees)
-
-  const { poolExp, gainPoolExp } = useSkillMasteryPool()
+  const masteryPoolExp = ref(0)
 
   const activeTreeId: Ref<ActiveTreeId> = ref(null)
 
@@ -50,10 +36,8 @@ export const useWoodcuttingStore = defineStore(SKILL_NAME, () => {
     }
 
     activeTreeId.value = treeId
-    const tree = TREES.get(treeId)
-    if (tree) {
-      activateAction(tree.interval, executeActiveAction)
-    }
+
+    activateAction(TREES[treeId].interval, executeActiveAction)
   }
 
   const doubleLogProbability = ref(0.05)
@@ -66,10 +50,8 @@ export const useWoodcuttingStore = defineStore(SKILL_NAME, () => {
     // If no active tree, do nothing
     if (!activeTreeId.value) return
 
-    const activeTree = TREES.get(activeTreeId.value)
-
-    // If no tree is found, do nothing. This SHOULD never happen
-    if (!activeTree) return
+    const ACTIVE_TREE = TREES[activeTreeId.value]
+    const activeTree = trees[activeTreeId.value]
 
     // Increment actions count
     actionsCount.value += 1
@@ -78,13 +60,16 @@ export const useWoodcuttingStore = defineStore(SKILL_NAME, () => {
     const doubleLogMultiplier = Math.random() < doubleLogProbability.value ? 2 : 1
 
     // Generate a tree log
-    inventoryStore.addItem(activeTree.producedItemId, 1 * doubleLogMultiplier)
+    inventoryStore.addItem(ACTIVE_TREE.producedItemId, 1 * doubleLogMultiplier)
 
-    // Gain experience
-    gainExp(activeTree.exp)
+    // Gain skill experience
+    exp.value += ACTIVE_TREE.exp
 
-    // Gain pool experience
-    gainPoolExp(activeTree.exp * 0.25)
+    // Gain item mastery experience
+    const gainedMasteryExp = gainMasteryExp(activeTreeId.value)
+
+    // Gain mastery pool experience
+    masteryPoolExp.value += gainedMasteryExp * 0.25
   }
 
   /**
@@ -95,11 +80,7 @@ export const useWoodcuttingStore = defineStore(SKILL_NAME, () => {
   const executeOfflineProgress = (saveTime: number, savedActiveTreeId: ActiveTreeId): void => {
     if (!savedActiveTreeId) return
 
-    const activeTree = TREES.get(savedActiveTreeId)
-    if (!activeTree) {
-      // TODO: Handle this case with a "broken save" message
-      return
-    }
+    const activeTree = TREES[savedActiveTreeId]
 
     activeTreeId.value = savedActiveTreeId
     const interval = activeTree.interval
@@ -113,16 +94,17 @@ export const useWoodcuttingStore = defineStore(SKILL_NAME, () => {
   }
 
   return {
+    // Skill Experience
     exp,
     level,
     expOverCurrentLevel,
     expToNextLevel,
 
     // Pool Experience
-    poolExp,
+    masteryPoolExp,
     MAX_POOL_EXP,
-    gainPoolExp,
 
+    trees,
     activeTreeId,
     actionsCount,
     toggleActiveAction,

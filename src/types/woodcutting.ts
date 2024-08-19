@@ -1,3 +1,4 @@
+import type { Ref } from 'vue'
 import type { InventoryItemId } from './inventory'
 
 export type TreeId =
@@ -23,12 +24,14 @@ export type Tree = {
     readonly level: number
   }
 }
-
-export type Trees = Map<TreeId, Tree>
+export type Trees = { [key in TreeId]: Tree }
 
 export type ActiveTreeId = TreeId | null
 
 export type StoreTree = {
-  masteryXP: number
+  masteryExp: Ref<number>
+  level: Ref<number>
+  expOverCurrentLevel: Ref<number>
+  expToNextLevel: Ref<number>
 }
-export type StoreTrees = Map<TreeId, StoreTree>
+export type StoreTrees = { [key in TreeId]: StoreTree }

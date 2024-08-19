@@ -5,7 +5,7 @@ import TheHeader from '@/components/layout/TheHeader.vue'
 import TheMain from '@/components/layout/TheMain.vue'
 import ProgressSection from '@/components/ProgressSection.vue'
 import TreeItem from '@/components/woodcutting/TreeItem.vue'
-import { TREES, MAX_POOL_EXP } from '@/constants/woodcutting'
+import { MAX_POOL_EXP, TREE_IDS } from '@/constants/woodcutting'
 import { standardNumberFormatter } from '@/utils/format'
 import { getAssetUrl } from '@/utils/assets'
 
@@ -34,12 +34,12 @@ const woodcuttingStore = useWoodcuttingStore()
 
     <ProgressSection
       class="mb-4"
-      :progress-width="(woodcuttingStore.poolExp / MAX_POOL_EXP) * 100"
-      :chip-text="`Mastery Pool XP: ${standardNumberFormatter(Math.floor(woodcuttingStore.poolExp))}/${standardNumberFormatter(MAX_POOL_EXP)}`"
+      :progress-width="(woodcuttingStore.masteryPoolExp / MAX_POOL_EXP) * 100"
+      :chip-text="`Mastery Pool XP: ${standardNumberFormatter(Math.floor(woodcuttingStore.masteryPoolExp))}/${standardNumberFormatter(MAX_POOL_EXP)}`"
     />
 
     <div class="trees">
-      <TreeItem v-for="[treeId, tree] in TREES" :key="treeId" :tree-id="treeId" :tree="tree" />
+      <TreeItem v-for="treeId in TREE_IDS" :key="treeId" :tree-id="treeId" />
     </div>
   </TheMain>
 </template>
