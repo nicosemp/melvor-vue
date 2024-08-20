@@ -22,7 +22,6 @@ const changeTab = (tabIdx: number) => {
   inventoryStore.selectedTab = tabIdx
 }
 
-// TODO: Fix the drag entering which is not applying the class
 const dragHoveredTabIdx = ref<number | null>(null)
 const handleOnDragEnter = (tabIdx: number) => {
   dragHoveredTabIdx.value = tabIdx
@@ -51,7 +50,13 @@ const handleOnDrop = (_event: DragEvent, tabIdx: number) => {
       :key="idx"
       @click="changeTab(idx)"
       @dragenter.prevent="(_e) => handleOnDragEnter(idx)"
-      @dragleave.prevent="(_e) => (dragHoveredTabIdx = null)"
+      @dragleave.prevent="
+        (e) => {
+          if (!(e.relatedTarget as HTMLElement).classList.contains('tab')) {
+            dragHoveredTabIdx = null
+          }
+        }
+      "
       @dragover.prevent
       @drop="(e) => handleOnDrop(e, idx)"
       :class="{
@@ -92,6 +97,10 @@ const handleOnDrop = (_event: DragEvent, tabIdx: number) => {
 
   .empty-square {
     @apply h-full w-full bg-slate-800 border-2 border-slate-700 rounded-lg p-1;
+  }
+
+  * {
+    @apply pointer-events-none;
   }
 }
 </style>
