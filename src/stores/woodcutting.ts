@@ -3,8 +3,9 @@ import { defineStore } from 'pinia'
 
 import { useSkillAction } from '@/composables/useSkillAction'
 import { useExperience } from '@/composables/useExperience'
+import { useItemMasteryIncrease } from '@/composables/useItemMasteryIncrease'
 import { useSkillItemsMastery } from '@/composables/useSkillItemsMastery'
-import { TREES, MAX_POOL_EXP } from '@/constants/woodcutting'
+import { MAX_POOL_EXP, TREE_IDS, TREES } from '@/constants/woodcutting'
 import type { ActiveTreeId, TreeId } from '@/types/woodcutting'
 
 import { useInventoryStore } from './inventory'
@@ -18,6 +19,8 @@ export const useWoodcuttingStore = defineStore(SKILL_NAME, () => {
   const { exp, level, expOverCurrentLevel, expToNextLevel } = useExperience()
 
   const { trees, gainMasteryExp } = useSkillItemsMastery()
+
+  const itemMasteryIncrease = useItemMasteryIncrease()
 
   const masteryPoolExp = ref(0)
 

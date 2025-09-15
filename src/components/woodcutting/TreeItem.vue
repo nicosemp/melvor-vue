@@ -17,51 +17,67 @@ const woodcuttingStore = useWoodcuttingStore()
 const TREE = TREES[props.treeId]
 const tree = woodcuttingStore.trees[props.treeId]
 
-const isUnlocked = computed(() => woodcuttingStore.level >= TREE.requirements.level)
 const isActive = computed(() => woodcuttingStore.activeTreeId === props.treeId)
-const animationSwitcher = computed(() => woodcuttingStore.actionsCount % 2 === 0)
+// const animationSwitcher = computed(() => woodcuttingStore.actionsCount % 2 === 0)
 </script>
 
 <template>
   <div
     class="tree"
-    :class="{ disabled: !isUnlocked, active: isActive }"
-    @click="isUnlocked && woodcuttingStore.toggleActiveAction(props.treeId)"
+    :class="{ disabled: !tree.isUnlocked, active: isActive }"
+    @click="tree.isUnlocked && woodcuttingStore.toggleActiveAction(props.treeId)"
   >
-    <h4 class="mb-2 text-center">{{ isUnlocked ? TREE.name : 'Locked' }}</h4>
+    <h4 class="text-center">{{ tree.isUnlocked ? TREE.name : 'Locked' }}</h4>
 
-    <img
-      :src="getAssetUrl(`/woodcutting/${isUnlocked ? TREE.imageName : 'woodcutting-skill'}.svg`)"
-      :alt="TREE.name"
-    />
-
-    <div class="flex justify-center gap-2">
-      <template v-if="isUnlocked">
-        <ChipItem :text="`XP ${TREE.exp}`" />
-        <ChipItem :text="`${TREE.interval / 1000}s`" />
-      </template>
-
-      <ChipItem v-else :text="`Level ${TREE.requirements.level}`" :type="!isUnlocked && 'danger'" />
+    <div v-if="tree.isUnlocked" class="flex justify-center gap-2">
+      <ChipItem :text="`XP ${TREE.exp}`" />
+      <ChipItem :text="`${TREE.interval / 1000}s`" />
     </div>
 
-    <div class="pt-2"></div>
+    <img
+      :src="
+        getAssetUrl(`/woodcutting/${tree.isUnlocked ? TREE.imageName : 'woodcutting-skill'}.svg`)
+      "
+      :alt="TREE.name"
+      class="tree-image"
+    />
 
     <!-- TODO: Remove this Bar and make it global, to allow multi-tree -->
-    <ProgressBar
+    <!-- <ProgressBar
       :duration="TREE.interval"
       :animate="isActive"
       :animationSwitcher
       :isDisabled="!isUnlocked"
-    />
+    /> -->
 
-    <ProgressBar :width="(tree.expOverCurrentLevel / tree.expToNextLevel) * 100" size="small" />
+    <div v-if="!tree.isUnlocked" class="flex justify-center">
+      <ChipItem
+        :text="`Level ${TREE.requirements.level}`"
+        type="danger"
+        class="w-full text-center"
+      />
+    </div>
 
-    {{ tree.level }} - {{ tree.masteryExp }}
+    <div v-if="tree.isUnlocked" class="tree-data">
+      <div class="flex items-end gap-2">
+        <img :src="getAssetUrl('/general/mastery.svg')" alt="Mastery" class="h-6" />
+        <p>{{ tree.level }}</p>
+      </div>
+      <div class="grow text-center">
+        <ChipItem
+          :text="`${tree.expOverCurrentLevel} / ${tree.expToNextLevel} XP`"
+          :size="'small'"
+          class="mb-2"
+        />
+        <ProgressBar :width="(tree.expOverCurrentLevel / tree.expToNextLevel) * 100" size="small" />
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
 .tree {
+  @apply flex flex-col gap-2;
   @apply p-4 rounded-lg w-56;
   @apply bg-slate-700 transition-all;
   &:not(.disabled) {
@@ -70,8 +86,11 @@ const animationSwitcher = computed(() => woodcuttingStore.actionsCount % 2 === 0
   &.active {
     @apply bg-slate-800;
   }
-  img {
-    @apply w-20 pb-2 mx-auto;
+  .tree-image {
+    @apply w-20 mx-auto;
+  }
+  .tree-data {
+    @apply flex justify-between gap-2 items-center;
   }
 }
 </style>

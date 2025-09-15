@@ -1,4 +1,4 @@
-import type { Ref } from 'vue'
+import type { ComputedRef, Ref } from 'vue'
 import type { InventoryItemId } from './inventory'
 
 export type TreeId =
@@ -33,5 +33,6 @@ export type StoreTree = {
   level: Ref<number>
   expOverCurrentLevel: Ref<number>
   expToNextLevel: Ref<number>
+  isUnlocked: ComputedRef<boolean>
 }
 export type StoreTrees = { [key in TreeId]: StoreTree }
